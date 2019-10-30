@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test : MonoBehaviour {
+public class MagnetController : MonoBehaviour {
 
-	// Use this for initialization
+    private bool MagunitudeType;    // 0 = 反発 1 = 吸引
+
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}

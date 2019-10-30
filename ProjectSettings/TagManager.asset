@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - N_mag
+  - S_mag
   layers:
   - Default
   - TransparentFX

@@ -10,12 +10,14 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
-    private float jumpTime = 0.35f;
+    private float jumpTime = 0f;
     private float _jumpPower;
+    private float speed = 120f;
     [SerializeField] private LayerMask platformLayer;
 
     InputManager inputManager;
     PlayerManager playerManager;
+
 
     void Awake()
     {
@@ -31,17 +33,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics2D.Linecast(transform.position - transform.up * 0.4f, transform.position - transform.up * 0.6f, platformLayer);
+        Vector2 groundedStart = transform.position - transform.up * 0.4f;
+        Vector2 groundedEnd = transform.position - transform.up * 0.6f + transform.eulerAngles;
+
+        isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
+        Debug.DrawLine(groundedStart, groundedEnd, Color.red);
     }
 
     void FixedUpdate()
     {
-        if (inputManager.MoveKey != 0) {
-            // 向きを変える
-            localScale.x = inputManager.MoveKey;
-            transform.localScale = localScale;
-        }
-
+        float step = speed * Time.deltaTime;
         if (isGrounded) {
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
@@ -50,8 +51,10 @@ public class PlayerController : MonoBehaviour
                 isJumpingCheck = false;
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, -90f), step);
             }
         } else {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, -90f), step);
             if (inputManager.JumpKey == 0) {
                 isJumping = false;
             }
@@ -61,13 +64,14 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isJumping) {
-            jumpTimeCounter -= Time.deltaTime;
+            
+            jumpTimeCounter += Time.deltaTime;
 
             if (inputManager.JumpKey == 2) {
-                _jumpPower -= 0.2f;
+                _jumpPower -= 0.1f;
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
             }
-            if (jumpTimeCounter < 0) {
+            if (jumpTimeCounter > 1) {
                 isJumping = false;
             }
         }
@@ -75,5 +79,10 @@ public class PlayerController : MonoBehaviour
         if (inputManager.JumpKey == 0) {
             isJumpingCheck = true;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 }

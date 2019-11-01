@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 689760771}
   - component: {fileID: 689760772}
   m_Layer: 0
-  m_Name: me
+  m_Name: eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -493,8 +493,8 @@ MonoBehaviour:
   moveSpeed: 5.4
   moveForceMultiplier: 1
   jumpMoveSpeed: 5.2
-  jumpPower: 5
-  gravityRate: 0.5
+  jumpPower: 3
+  gravityRate: 0.9
   rotationSpeed: 0.1
 --- !u!114 &1210783797
 MonoBehaviour:
@@ -511,6 +511,7 @@ MonoBehaviour:
   platformLayer:
     serializedVersion: 2
     m_Bits: 1
+  eye: {fileID: 0}
 --- !u!50 &1210783798
 Rigidbody2D:
   serializedVersion: 4

@@ -10,13 +10,15 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
-    private float jumpTime = 0f;
+    private float jumpTime = 0.35f;
     private float _jumpPower;
     private float speed = 120f;
     [SerializeField] private LayerMask platformLayer;
 
     InputManager inputManager;
     PlayerManager playerManager;
+
+    public GameObject eye;
 
 
     void Awake()
@@ -33,8 +35,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector2 groundedStart = transform.position - transform.up * 0.4f;
-        Vector2 groundedEnd = transform.position - transform.up * 0.6f + transform.eulerAngles;
+        // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
+        Vector2 groundedStart = eye.transform.position - eye.transform.up;
+        Vector2 groundedEnd = eye.transform.position - eye.transform.up;
 
         isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
         Debug.DrawLine(groundedStart, groundedEnd, Color.red);
@@ -65,13 +68,13 @@ public class PlayerController : MonoBehaviour
 
         if (isJumping) {
             
-            jumpTimeCounter += Time.deltaTime;
+            jumpTimeCounter -= Time.deltaTime;
 
             if (inputManager.JumpKey == 2) {
                 _jumpPower -= 0.1f;
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
             }
-            if (jumpTimeCounter > 1) {
+            if (jumpTimeCounter < 0) {
                 isJumping = false;
             }
         }

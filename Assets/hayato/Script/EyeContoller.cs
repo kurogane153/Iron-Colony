@@ -17,7 +17,7 @@ public class EyeContoller : MonoBehaviour {
     void Update()
     {
         // 親からの回転の影響を無効化している
-        gameObject.transform.rotation = Quaternion.Euler(0,0,0);
+        //gameObject.transform.rotation = Quaternion.Euler(0,0,0);
     }
 
     void FixedUpdate()
@@ -27,7 +27,7 @@ public class EyeContoller : MonoBehaviour {
         if (eyeX <= MaxEyeXPosition && eyeX >= -MaxEyeXPosition)
         {
             eyeX = inputManager.MoveKey * EyeMoveSpeed;
-            transform.Translate(eyeX, 0, 0, Space.World);
+            transform.Translate(eyeX, 0, 0, Space.Self);
         }
 
         // 移動キーを離したときは、元の位置に徐々に戻す処理。
@@ -41,7 +41,7 @@ public class EyeContoller : MonoBehaviour {
             {
                 eyeX += EyeMoveSpeed;
             }
-            transform.Translate(eyeX, 0, 0, Space.World);
+            transform.Translate(eyeX, 0, 0, Space.Self);
         }
     }
 

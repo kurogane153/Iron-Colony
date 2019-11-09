@@ -76,10 +76,26 @@ public class InputManager : MonoBehaviour
         get { return jumpKey; }
     }
 
+    /* -- 左（反時計回り）回転入力 --------------------------------------------------------------------------------- */
+    private bool rotateLeftKey = false;
+    public bool RotateLeftKey
+    {
+        get { return rotateLeftKey; }
+    }
+
+    /* -- 右（時計回り）回転入力 --------------------------------------------------------------------------------- */
+    private bool rotateRightKey = false;
+    public bool RotateRightKey
+    {
+        get { return rotateRightKey; }
+    }
+
     void Update()
     {
         // 移動
         moveKey = Input.GetAxisRaw("Horizontal");
+        rotateLeftKey = Input.GetButtonDown("Rotate_Left");
+        rotateRightKey = Input.GetButtonDown("Rotate_Right");
         // ジャンプ
         if (Input.GetButtonDown("Jump"))
         {

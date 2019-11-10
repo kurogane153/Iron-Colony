@@ -8,6 +8,7 @@ TagManager:
   - N_mag
   - S_mag
   - Magnet
+  - Mairo
   layers:
   - Default
   - TransparentFX

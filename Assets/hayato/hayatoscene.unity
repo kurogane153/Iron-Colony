@@ -162,12 +162,13 @@ GameObject:
   m_Component:
   - component: {fileID: 182431773}
   - component: {fileID: 182431772}
+  - component: {fileID: 182431775}
   - component: {fileID: 182431771}
   - component: {fileID: 182431770}
   - component: {fileID: 182431769}
   - component: {fileID: 182431776}
   - component: {fileID: 182431774}
-  - component: {fileID: 182431775}
+  - component: {fileID: 182431777}
   m_Layer: 8
   m_Name: S_Magnet
   m_TagString: Magnet
@@ -198,7 +199,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.09763447, y: 0.3}
+  m_Size: {x: 0.09763447, y: 0.2588629}
   m_EdgeRadius: 0
 --- !u!50 &182431770
 Rigidbody2D:
@@ -230,8 +231,8 @@ PointEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 1792
-  m_ForceMagnitude: -100
+    m_Bits: 1536
+  m_ForceMagnitude: -75
   m_ForceVariation: 0
   m_DistanceScale: 10
   m_ForceSource: 0
@@ -305,7 +306,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 182431768}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fece142d0204979499a4eef1863c6294, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -360,6 +361,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.0887421}
+  m_EdgeRadius: 0
+--- !u!61 &182431777
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 182431768}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: fece142d0204979499a4eef1863c6294, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0012819394, y: -0.0002563782}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.12974565, y: 0.09590197}
   m_EdgeRadius: 0
 --- !u!1 &493467795
 GameObject:
@@ -440,7 +466,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 689760769}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5009999, y: -0.794, z: 0}
+  m_LocalPosition: {x: -1.501, y: -0.794, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -510,7 +536,7 @@ PositionConstraint:
   m_GameObject: {fileID: 689760769}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: -1.5009999, y: -0.794, z: 0}
+  m_TranslationAtRest: {x: -1.501, y: -0.794, z: 0}
   m_TranslationOffset: {x: 0, y: 0.029999971, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
@@ -561,6 +587,91 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1035504088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1035504090}
+  - component: {fileID: 1035504089}
+  - component: {fileID: 1035504091}
+  - component: {fileID: 1035504092}
+  m_Layer: 0
+  m_Name: KillZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1035504089
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035504088}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 20, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &1035504090
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035504088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.27, y: -9.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1035504091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035504088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65a02906614a3a45ad1fc19aa3c8941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1818360608 &1035504092
+PositionConstraint:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035504088}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: -1.27, y: -9.63, z: 0}
+  m_TranslationOffset: {x: 0.23100007, y: -8.806, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 0
+  m_AffectTranslationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1210783801}
+    weight: 1
 --- !u!1 &1043628314
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +741,7 @@ GameObject:
   - component: {fileID: 1210783796}
   m_Layer: 11
   m_Name: Mairo
-  m_TagString: Untagged
+  m_TagString: Mairo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -647,11 +758,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5.4
-  moveForceMultiplier: 1
+  moveForceMultiplier: 2.9
   jumpMoveSpeed: 5.2
   jumpPower: 5
   gravityRate: 0.4
-  rotationSpeed: 0.1
+  rotationSpeed: 320
+  rotationSecond: 0.35
+  childReEnableCounter: 0.5
 --- !u!114 &1210783797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,12 +777,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1210783798}
-  speed: 320
-  rotateSecond: 0.34
   platformLayer:
     serializedVersion: 2
     m_Bits: 1
-  childReEnableCounter: 0.5
   eye: {fileID: 689760769}
 --- !u!50 &1210783798
 Rigidbody2D:
@@ -1124,6 +1234,9 @@ GameObject:
   - component: {fileID: 1664101380}
   - component: {fileID: 1664101379}
   - component: {fileID: 1664101382}
+  - component: {fileID: 1664101383}
+  - component: {fileID: 1664101384}
+  - component: {fileID: 1664101385}
   m_Layer: 0
   m_Name: Floar
   m_TagString: Ground
@@ -1137,7 +1250,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1664101378}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -1234,3 +1347,62 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &1664101383
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1664101378}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
+--- !u!68 &1664101384
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1664101378}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: fece142d0204979499a4eef1863c6294, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.002, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.31962165, y: 0.32027984}
+  - {x: -0.31914654, y: -0.31903237}
+--- !u!68 &1664101385
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1664101378}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: fece142d0204979499a4eef1863c6294, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.002, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.31947637, y: 0.3185755}
+  - {x: 0.31841776, y: -0.32119727}

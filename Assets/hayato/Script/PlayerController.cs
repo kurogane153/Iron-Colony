@@ -5,23 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
-    private Vector2 localScale;
+    [SerializeField] private LayerMask platformLayer;
     private bool isGrounded = true;
+
     private bool isRotating = false;
-    private int rotateDirection = 0;    //左回転 = 0　、　右回転 = 1。
     private float rotateAngle = 0;
     private float rotateTimer = 0;
+
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
     private float jumpTime = 0.35f;
     private float _jumpPower;
-    public float speed = 120f;
-    public float rotateSecond = 1.4f;
-    [SerializeField] private LayerMask platformLayer;
+
     private GameObject childNMagPole;
     private GameObject childSMagPole;
-    [SerializeField] private float childReEnableCounter = 0.5f;
     private float childEnableCounter;
     private bool childEnabled = true;
 
@@ -30,10 +28,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject eye;
 
-
     void Awake()
     {
-        localScale = transform.localScale;
         jumpTimeCounter = jumpTime;
     }
 
@@ -47,19 +43,36 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        float step = playerManager.RotationSpeed * Time.deltaTime;
         // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
         Vector2 groundedStart = eye.transform.position;
         Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f;
 
         isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
         Debug.DrawLine(groundedStart, groundedEnd, Color.red);
-    }
 
-    
+        if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
+            if (inputManager.RotateLeftKey) {
+                rotateAngle += 90f;
+                isRotating = true;
+                rotateTimer = playerManager.RotationSecond;
+
+            } else if (inputManager.RotateRightKey) {
+                rotateAngle -= 90f;
+                isRotating = true;
+                rotateTimer = playerManager.RotationSecond;
+            }
+        } else {        // 回転中の処理。
+            rotateTimer -= Time.deltaTime;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
+            if (rotateTimer <= 0) {
+                isRotating = false;
+            }
+        }
+    }
 
     void FixedUpdate()
     {
-        float step = speed * Time.deltaTime;
         if (isGrounded) {
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
@@ -75,30 +88,6 @@ public class PlayerController : MonoBehaviour
             }
             if (!isJumping) {
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), Physics.gravity.y * playerManager.GravityRate));
-            }
-        }
-
-        if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
-            if (inputManager.RotateLeftKey) {
-                rotateDirection = 0;
-                rotateAngle += 90f;
-                isRotating = true;
-                rotateTimer = rotateSecond;
-            } else if (inputManager.RotateRightKey) {
-                rotateDirection = 1;
-                rotateAngle -= 90f;
-                isRotating = true;
-                rotateTimer = rotateSecond;
-            }
-        } else {        // 回転中の処理。
-            rotateTimer -= Time.deltaTime;
-            if(rotateDirection == 0) {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
-            } else if (rotateDirection == 1) {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
-            }
-            if (rotateTimer <= 0) {
-                isRotating = false;
             }
         }
 
@@ -150,9 +139,10 @@ public class PlayerController : MonoBehaviour
             if (isJumpingCheck && inputManager.JumpKey != 0) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
-                magnet.effectorEnabledTime = 0;
+                magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
                 effector2D.enabled = false;
-                childEnableCounter = childReEnableCounter;
+                effector2D.forceMagnitude = 0;
+                childEnableCounter = playerManager.ChildReEnableCounter;
                 childEnabled = false;
                 childNMagPole.SetActive(false);
                 childSMagPole.SetActive(false);
@@ -160,7 +150,6 @@ public class PlayerController : MonoBehaviour
                 isJumpingCheck = false;
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
-                Debug.Log("じゃんぷ");
             }
         }
     }

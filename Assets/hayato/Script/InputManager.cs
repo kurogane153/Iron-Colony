@@ -94,8 +94,8 @@ public class InputManager : MonoBehaviour
     {
         // 移動
         moveKey = Input.GetAxisRaw("Horizontal");
-        rotateLeftKey = Input.GetButtonDown("Rotate_Left");
-        rotateRightKey = Input.GetButtonDown("Rotate_Right");
+        rotateLeftKey = Input.GetButtonUp("Rotate_Left");
+        rotateRightKey = Input.GetButtonUp("Rotate_Right");
         // ジャンプ
         if (Input.GetButtonDown("Jump"))
         {

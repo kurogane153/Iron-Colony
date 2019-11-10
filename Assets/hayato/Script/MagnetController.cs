@@ -6,7 +6,7 @@ public class MagnetController : MonoBehaviour {
 
     PointEffector2D effector2D;
     private float myForceMagunitude;
-    [SerializeField] private float effectorEnabledCounter = 1f;
+    public float effectorEnabledCounter = 1f;
     public float effectorEnabledTime;
 
     private enum MagPole
@@ -25,8 +25,15 @@ public class MagnetController : MonoBehaviour {
 
     void Update ()
     {
-		
-	}
+        if (effectorEnabledTime > 0f) {
+            effectorEnabledTime -= Time.deltaTime;
+        } else {
+            effector2D.enabled = true;
+            
+            //effector2D.forceMagnitude = myForceMagunitude;
+        }
+    }
+
 
     // プレイヤーがジャンプしたときにPointEffector2Dを無効化されたときの処理。
     // 有効化までの時間はプレイヤー側が設定している。
@@ -34,10 +41,25 @@ public class MagnetController : MonoBehaviour {
     // effectorを有効化させている。
     private void FixedUpdate()
     {
-        if(effector2D.enabled == false) {
-            effectorEnabledTime += Time.deltaTime;
-            if(effectorEnabledTime >= effectorEnabledCounter) {
-                effector2D.enabled = true;
+        
+    }
+
+    // プレイヤーのNかS極がトリガーに触れている間呼び出される
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 自分の極とプレイヤーの極を比較して、吸引か反発か切り替えている。
+        if (collision.tag == "N_mag") {
+            if (Pole == MagPole.N_mag) {
+                effector2D.forceMagnitude = -myForceMagunitude;
+            } else if (Pole == MagPole.S_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            }
+
+        } else if (collision.tag == "S_mag") {
+            if (Pole == MagPole.N_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            } else if (Pole == MagPole.S_mag) {
+                effector2D.forceMagnitude = -myForceMagunitude;
             }
         }
     }
@@ -62,5 +84,23 @@ public class MagnetController : MonoBehaviour {
         }
     }
 
-    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "N_mag") {
+            if (Pole == MagPole.N_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            } else if (Pole == MagPole.S_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            }
+
+        } else if (collision.tag == "S_mag") {
+            if (Pole == MagPole.N_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            } else if (Pole == MagPole.S_mag) {
+                effector2D.forceMagnitude = myForceMagunitude;
+            }
+        }
+    }
+
+
 }

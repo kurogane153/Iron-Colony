@@ -94,6 +94,14 @@ public class PlayerManager : MonoBehaviour
         set { jumpPower = value; }
     }
 
+    /* -- ジャンプ時間 ------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 2f)] private float jumpTime = 0.35f;
+    public float JumpTime
+    {
+        get { return jumpTime; }
+        set { jumpTime = value; }
+    }
+
     /* -- 重力倍率 --------------------------------------------------------------------------------- */
     [SerializeField, Range(0f, 10f)] private float gravityRate = 1.8f;
     public float GravityRate

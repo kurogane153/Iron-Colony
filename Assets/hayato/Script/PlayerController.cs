@@ -11,11 +11,12 @@ public class PlayerController : MonoBehaviour
     private bool isRotating = false;
     private float rotateAngle = 0;
     private float rotateTimer = 0;
+    public int angleNumber;
 
+    public bool isWallStick = false;
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
-    private float jumpTime = 0.35f;
     private float _jumpPower;
 
     private GameObject childNMagPole;
@@ -30,13 +31,14 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        jumpTimeCounter = jumpTime;
+        
     }
 
     void Start()
     {
         playerManager = PlayerManager.Instance;
         inputManager = InputManager.Instance;
+        jumpTimeCounter = playerManager.JumpTime;
         childNMagPole = transform.GetChild(0).gameObject;
         childSMagPole = transform.GetChild(1).gameObject;
     }
@@ -56,11 +58,16 @@ public class PlayerController : MonoBehaviour
                 rotateAngle += 90f;
                 isRotating = true;
                 rotateTimer = playerManager.RotationSecond;
-
+                if( 3 < ++angleNumber) {
+                    angleNumber = 0;
+                }
             } else if (inputManager.RotateRightKey) {
                 rotateAngle -= 90f;
                 isRotating = true;
                 rotateTimer = playerManager.RotationSecond;
+                if ( --angleNumber < 0) {
+                    angleNumber = 3;
+                }
             }
         } else {        // 回転中の処理。
             rotateTimer -= Time.deltaTime;
@@ -77,10 +84,11 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
             if (isJumpingCheck && inputManager.JumpKey != 0) {
-                jumpTimeCounter = jumpTime;
+                jumpTimeCounter = playerManager.JumpTime;
                 isJumpingCheck = false;
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
             }
         } else {
             if (inputManager.JumpKey == 0) {
@@ -112,8 +120,8 @@ public class PlayerController : MonoBehaviour
             childEnableCounter -= Time.deltaTime;
             if (childEnableCounter <= 0f) {
                 childEnabled = true;
-                childNMagPole.SetActive(true);
-                childSMagPole.SetActive(true);
+                childNMagPole.GetComponent<BoxCollider2D>().enabled = true;
+                childSMagPole.GetComponent<BoxCollider2D>().enabled = true;
             }
 
         }
@@ -140,16 +148,18 @@ public class PlayerController : MonoBehaviour
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
                 magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
+                magnet.isPoleEnter = false;
                 effector2D.enabled = false;
                 effector2D.forceMagnitude = 0;
                 childEnableCounter = playerManager.ChildReEnableCounter;
                 childEnabled = false;
-                childNMagPole.SetActive(false);
-                childSMagPole.SetActive(false);
-                jumpTimeCounter = jumpTime;
+                childNMagPole.GetComponent<BoxCollider2D>().enabled = false;
+                childSMagPole.GetComponent<BoxCollider2D>().enabled = false;
+                jumpTimeCounter = playerManager.JumpTime;
                 isJumpingCheck = false;
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
             }
         }
     }

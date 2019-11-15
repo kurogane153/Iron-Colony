@@ -102,6 +102,14 @@ public class PlayerManager : MonoBehaviour
         set { jumpTime = value; }
     }
 
+    /* -- ジャンプ力減衰率 ------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 10f)] private float jumpPowerAttenuation = 0.1f;
+    public float JumpPowerAttenuation
+    {
+        get { return jumpPowerAttenuation; }
+        set { jumpPowerAttenuation = value; }
+    }
+
     /* -- 重力倍率 --------------------------------------------------------------------------------- */
     [SerializeField, Range(0f, 10f)] private float gravityRate = 1.8f;
     public float GravityRate

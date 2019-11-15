@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61032892623453184}
   - component: {fileID: 50938257620786500}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_Ver1.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,10 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1970ad553cea3d24d979f9c2ab9883ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUseCameraDirection: 0
-  moveSpeed: 5
-  moveForceMultiplier: 5
-  jumpPower: 500
+  rb: {fileID: 0}
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  angleNumber: 0
+  isWallStick: 0
+  eye: {fileID: 0}
 --- !u!212 &212144226313220802
 SpriteRenderer:
   m_ObjectHideFlags: 1

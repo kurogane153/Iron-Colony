@@ -5,51 +5,90 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
-    private Vector2 localScale;
+    [SerializeField] private LayerMask platformLayer;
     private bool isGrounded = true;
+
+    private bool isRotating = false;
+    private float rotateAngle = 0;
+    private float rotateTimer = 0;
+    public int angleNumber;
+
+    public bool isWallStick = false;
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
-    private float jumpTime = 0.35f;
     private float _jumpPower;
-    [SerializeField] private LayerMask platformLayer;
+
+    private GameObject childNMagPole;
+    private GameObject childSMagPole;
+    private float childEnableCounter;
+    private bool childEnabled = true;
 
     InputManager inputManager;
     PlayerManager playerManager;
 
+    public GameObject eye;
+
     void Awake()
     {
-        localScale = transform.localScale;
-        jumpTimeCounter = jumpTime;
+        
     }
 
     void Start()
     {
         playerManager = PlayerManager.Instance;
         inputManager = InputManager.Instance;
+        jumpTimeCounter = playerManager.JumpTime;
+        childNMagPole = transform.GetChild(0).gameObject;
+        childSMagPole = transform.GetChild(1).gameObject;
     }
 
     void Update()
     {
-        isGrounded = Physics2D.Linecast(transform.position - transform.up * 0.4f, transform.position - transform.up * 0.6f, platformLayer);
+        float step = playerManager.RotationSpeed * Time.deltaTime;
+        // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
+        Vector2 groundedStart = eye.transform.position;
+        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f;
+
+        isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
+        Debug.DrawLine(groundedStart, groundedEnd, Color.red);
+
+        if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
+            if (inputManager.RotateLeftKey) {
+                rotateAngle += 90f;
+                isRotating = true;
+                rotateTimer = playerManager.RotationSecond;
+                if( 3 < ++angleNumber) {
+                    angleNumber = 0;
+                }
+            } else if (inputManager.RotateRightKey) {
+                rotateAngle -= 90f;
+                isRotating = true;
+                rotateTimer = playerManager.RotationSecond;
+                if ( --angleNumber < 0) {
+                    angleNumber = 3;
+                }
+            }
+        } else {        // 回転中の処理。
+            rotateTimer -= Time.deltaTime;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
+            if (rotateTimer <= 0) {
+                isRotating = false;
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        if (inputManager.MoveKey != 0) {
-            // 向きを変える
-            localScale.x = inputManager.MoveKey;
-            transform.localScale = localScale;
-        }
-
         if (isGrounded) {
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
             if (isJumpingCheck && inputManager.JumpKey != 0) {
-                jumpTimeCounter = jumpTime;
+                jumpTimeCounter = playerManager.JumpTime;
                 isJumpingCheck = false;
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
             }
         } else {
             if (inputManager.JumpKey == 0) {
@@ -61,10 +100,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isJumping) {
+            
             jumpTimeCounter -= Time.deltaTime;
 
             if (inputManager.JumpKey == 2) {
-                _jumpPower -= 0.2f;
+                _jumpPower -= 0.1f;
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
             }
             if (jumpTimeCounter < 0) {
@@ -75,5 +115,54 @@ public class PlayerController : MonoBehaviour
         if (inputManager.JumpKey == 0) {
             isJumpingCheck = true;
         }
+
+        if (!childEnabled) {
+            childEnableCounter -= Time.deltaTime;
+            if (childEnableCounter <= 0f) {
+                childEnabled = true;
+                childNMagPole.GetComponent<BoxCollider2D>().enabled = true;
+                childSMagPole.GetComponent<BoxCollider2D>().enabled = true;
+            }
+
+        }
     }
+
+    // Magnetに触れたときにも、地面に触れた、ということにして
+    // ジャンプできるようにしている。
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Magnet") {
+            isGrounded = true;
+        }
+    }
+
+    // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！
+    // そいつのPointEffector2Dコンポーネントと磁石用スクリプトを取得
+    // effector2dを無効化させて、再び有効にするためのカウンターをセット
+    // そして自分は、N極とS極を設定した時間無効化する。
+    // effector2dを無効化された相手は、自分のスクリプトの中でカウントダウンができる。
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Magnet") {
+            if (isJumpingCheck && inputManager.JumpKey != 0) {
+                PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
+                MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
+                magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
+                magnet.isPoleEnter = false;
+                effector2D.enabled = false;
+                effector2D.forceMagnitude = 0;
+                childEnableCounter = playerManager.ChildReEnableCounter;
+                childEnabled = false;
+                childNMagPole.GetComponent<BoxCollider2D>().enabled = false;
+                childSMagPole.GetComponent<BoxCollider2D>().enabled = false;
+                jumpTimeCounter = playerManager.JumpTime;
+                isJumpingCheck = false;
+                isJumping = true;
+                _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
+            }
+        }
+    }
+
+
 }

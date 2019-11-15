@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - N_mag
+  - S_mag
+  - Magnet
+  - Mairo
   layers:
   - Default
   - TransparentFX
@@ -14,10 +18,10 @@ TagManager:
   - UI
   - 
   - 
-  - ranko
-  - mairo
-  - 
-  - 
+  - Magnet
+  - North Magnetic Pole
+  - South Magnetic Pole
+  - Player
   - 
   - 
   - 

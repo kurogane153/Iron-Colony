@@ -94,6 +94,14 @@ public class PlayerManager : MonoBehaviour
         set { jumpPower = value; }
     }
 
+    /* -- ジャンプ時間 ------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 2f)] private float jumpTime = 0.35f;
+    public float JumpTime
+    {
+        get { return jumpTime; }
+        set { jumpTime = value; }
+    }
+
     /* -- 重力倍率 --------------------------------------------------------------------------------- */
     [SerializeField, Range(0f, 10f)] private float gravityRate = 1.8f;
     public float GravityRate
@@ -102,4 +110,27 @@ public class PlayerManager : MonoBehaviour
         set { gravityRate = value; }
     }
 
+    /* -- 回転速度 --------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 1000f)] private float rotationSpeed = 320f;
+    public float RotationSpeed
+    {
+        get { return rotationSpeed; }
+        set { rotationSpeed = value; }
+    }
+
+    /* -- 回転間隔 --------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 2f)] private float rotationSecond = 0.35f;
+    public float RotationSecond
+    {
+        get { return rotationSecond; }
+        set { rotationSecond = value; }
+    }
+
+    /* -- 子要素再起動までの時間 --------------------------------------------------------------------------------- */
+    [SerializeField, Range(0f, 2f)] private float childReEnableCounter = 0.5f;
+    public float ChildReEnableCounter
+    {
+        get { return childReEnableCounter; }
+        set { childReEnableCounter = value; }
+    }
 }

@@ -69,6 +69,13 @@ public class InputManager : MonoBehaviour
         get { return moveKey; }
     }
 
+    /* -- Horizontal入力 --------------------------------------------------------------------------- */
+    private float upMoveKey = 0;
+    public float UpMoveKey
+    {
+        get { return upMoveKey; }
+    }
+
     /* -- Jump入力 --------------------------------------------------------------------------------- */
     private int jumpKey = 0;
     public int JumpKey
@@ -76,10 +83,27 @@ public class InputManager : MonoBehaviour
         get { return jumpKey; }
     }
 
+    /* -- 左（反時計回り）回転入力 --------------------------------------------------------------------------------- */
+    private bool rotateLeftKey = false;
+    public bool RotateLeftKey
+    {
+        get { return rotateLeftKey; }
+    }
+
+    /* -- 右（時計回り）回転入力 --------------------------------------------------------------------------------- */
+    private bool rotateRightKey = false;
+    public bool RotateRightKey
+    {
+        get { return rotateRightKey; }
+    }
+
     void Update()
     {
         // 移動
         moveKey = Input.GetAxisRaw("Horizontal");
+        upMoveKey = Input.GetAxisRaw("Vertical");
+        rotateLeftKey = Input.GetButtonUp("Rotate_Left");
+        rotateRightKey = Input.GetButtonUp("Rotate_Right");
         // ジャンプ
         if (Input.GetButtonDown("Jump"))
         {

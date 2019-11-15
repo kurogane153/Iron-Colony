@@ -95,7 +95,14 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
             }
             if (!isJumping) {
-                rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), Physics.gravity.y * playerManager.GravityRate));
+                if(rb.velocity.y <= -10) {
+                    rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 0));
+                } else if(rb.velocity.y <= 0) {
+                    rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), Physics.gravity.y * playerManager.GravityRate));
+                } else {
+                    _jumpPower -= playerManager.JumpPowerAttenuation * 2;
+                    rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
+                }
             }
         }
 
@@ -104,10 +111,16 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter -= Time.deltaTime;
 
             if (inputManager.JumpKey == 2) {
-                _jumpPower -= 0.1f;
+                _jumpPower -= playerManager.JumpPowerAttenuation;
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
+            } else if(inputManager.JumpKey == 0) {
+                _jumpPower -= playerManager.JumpPowerAttenuation;
+
             }
             if (jumpTimeCounter < 0) {
+                isJumping = false;
+            }
+            if (rb.velocity.y <= -1) {
                 isJumping = false;
             }
         }

@@ -2,20 +2,36 @@
 using UnityEngine;
 using System.Collections;
 
-public class Testmayu : MonoBehaviour
+public class testmayu : MonoBehaviour
 {
-    // スクロールするスピード
-    public float speed = 0.1f;
+    float back_x = 0;
+    private GameObject player;
+    public float speed = 10;
+    public int spriteCount = 3;
+
+    void Start()
+    {
+        player = GameObject.Find("mairo");
+    }
 
     void Update()
     {
-        // 時間によってYの値が0から1に変化していく。1になったら0に戻り、繰り返す。
-        float y = Mathf.Repeat(Time.time * speed, 1);
+        if (back_x != player.transform.position.x)
+        {
+            if (player.transform.position.x > 0)
+            {
+                // 左へ移動
+                transform.position += Vector3.left * speed * player.transform.position.x;
+            }
+        }
+        back_x = player.transform.position.x;
+    }
 
-        // Yの値がずれていくオフセットを作成
-        Vector2 offset = new Vector2(0, y);
-
-        // マテリアルにオフセットを設定する
-        GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_MainTex", offset);
+    void OnBecameInvisible()
+    {
+        // スプライトの幅を取得
+        float width = GetComponent<SpriteRenderer>().bounds.size.x;
+        // 幅ｘ個数分だけ右へ移動
+        transform.position += Vector3.right * width * spriteCount;
     }
 }

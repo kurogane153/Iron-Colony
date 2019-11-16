@@ -5,13 +5,16 @@ using UnityEngine;
 public class SouthMagPoleScript : MonoBehaviour {
 
     public GameObject Mairo;
+    PlayerController playerController;
     PointEffector2D pointEffector;
     private float MyForceMagnitude;
 
     // Use this for initialization
     void Start()
     {
-
+        pointEffector = GetComponent<PointEffector2D>();
+        MyForceMagnitude = pointEffector.forceMagnitude;
+        playerController = Mairo.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -20,9 +23,28 @@ public class SouthMagPoleScript : MonoBehaviour {
 
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Movable Magnet S") {
+            pointEffector.forceMagnitude = -MyForceMagnitude;
+        } else if (collision.gameObject.tag == "Movable Magnet N") {
+            pointEffector.forceMagnitude = MyForceMagnitude;
+            playerController.SetMovableMagStickFlg();
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Movable Magnet S") {
+            pointEffector.forceMagnitude = MyForceMagnitude;
+        }
+    }
+
     public void EnablePointEffector()
     {
         pointEffector.enabled = true;
+        pointEffector.forceMagnitude = MyForceMagnitude;
     }
 
     public void DisablePointEffector()

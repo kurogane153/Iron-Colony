@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject movableMag;
     MovableMagnetContoroller moveMagController;
+    private bool isMovableMagStick;
 
     void Awake()
     {
@@ -69,12 +70,25 @@ public class PlayerController : MonoBehaviour
                 if( 3 < ++angleNumber) {
                     angleNumber = 0;
                 }
+                if (isMovableMagStick) {
+                    moveMagController.SetPosConstraintDisable();
+                    isMovableMagStick = false;
+                    northMagController.EnablePointEffector();
+                    southmagController.EnablePointEffector();
+                }
+                
             } else if (inputManager.RotateRightKey) {
                 rotateAngle -= 90f;
                 isRotating = true;
                 rotateTimer = playerManager.RotationSecond;
                 if ( --angleNumber < 0) {
                     angleNumber = 3;
+                }
+                if (isMovableMagStick) {
+                    moveMagController.SetPosConstraintDisable();
+                    isMovableMagStick = false;
+                    northMagController.EnablePointEffector();
+                    southmagController.EnablePointEffector();
                 }
             }
         } else {        // 回転中の処理。
@@ -154,6 +168,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isGrounded = true;
+        } else if((collision.gameObject.tag == "Movable Magnet N" || collision.gameObject.tag == "Movable Magnet S") && isMovableMagStick) {
+            movableMag = collision.gameObject;
+            moveMagController = collision.gameObject.GetComponent<MovableMagnetContoroller>();
+            moveMagController.SetPosConstraintEnable();
         }
         
     }
@@ -186,5 +204,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    public void SetMovableMagStickFlg()
+    {
+        isMovableMagStick = true;
+    }
 
 }

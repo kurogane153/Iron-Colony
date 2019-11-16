@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class NorthMagPoleScript : MonoBehaviour {
 
-    GameObject SmagPole;
+    public GameObject Mairo;
+    PointEffector2D pointEffector;
+    private float MyForceMagnitude;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         
     }
 	
@@ -18,9 +20,19 @@ public class NorthMagPoleScript : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Magnet") {
-            SmagPole = transform.Find("South Magnetic Pole").gameObject;
-            SmagPole.GetComponent<BoxCollider2D>().enabled = false;
+        if (collision.gameObject.tag == "Movable Magnet N" || collision.gameObject.tag == "Movable Magnet S") {
+            
         }
     }
+
+    public void EnablePointEffector ()
+    {
+        pointEffector.enabled = true;
+    }
+
+    public void DisablePointEffector ()
+    {
+        pointEffector.enabled = false;
+    }
+
 }

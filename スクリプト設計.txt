@@ -1,0 +1,38 @@
+プレイヤーNS極はON状態
+
+動く磁石レイヤーにいる磁石を探せる
+
+S極だった場合
+
+動く磁石がN極だった場合
+フォースマグニチュードをマイナスにする
+
+S極にくっついたら左右のエフェクターを切ってマイロが変な動きしないようにする マイロで制御
+極にくっついた動く磁石のGameObjectを取得してマイロの変数に入れる　マイロで制御
+その磁石のポジションコンストレイントのIsActiveをtrueにする　マイロで制御
+
+マイロが回転したらポジションコンストレイントをfalseにする　マイロで制御
+S極側に切った通知を送る　マイロで制御
+エフェクターを復活させる　S極で制御
+再接着できるまでの時間を動く磁石側に設定する　マイロで制御
+
+
+動く磁石がS極だった場合
+フォースマグニチュードをプラスにする
+
+反発させる
+
+変数
+S極・N極
+マイロ
+playercontroller
+pointeffector2d
+effectorReEnableTime
+
+マイロ
+Scontroller
+Ncontroller
+private movable magnet
+position constraint
+movable magnet controller
+

@@ -29,9 +29,15 @@ public class PlayerController : MonoBehaviour
 
     public GameObject eye;
 
+    NorthMagPoleScript northMagController;
+    SouthMagPoleScript southmagController;
+
+    private GameObject movableMag;
+    MovableMagnetContoroller moveMagController;
+
     void Awake()
     {
-        
+       
     }
 
     void Start()
@@ -41,6 +47,8 @@ public class PlayerController : MonoBehaviour
         jumpTimeCounter = playerManager.JumpTime;
         childNMagPole = transform.GetChild(0).gameObject;
         childSMagPole = transform.GetChild(1).gameObject;
+        northMagController = childNMagPole.GetComponent<NorthMagPoleScript>();
+        southmagController = childSMagPole.GetComponent<SouthMagPoleScript>();
     }
 
     void Update()
@@ -147,6 +155,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Magnet") {
             isGrounded = true;
         }
+        
     }
 
     // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！

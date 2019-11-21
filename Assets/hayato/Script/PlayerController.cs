@@ -71,10 +71,7 @@ public class PlayerController : MonoBehaviour
                     angleNumber = 0;
                 }
                 if (isMovableMagStick) {
-                    moveMagController.SetPosConstraintDisable();
-                    isMovableMagStick = false;
-                    northMagController.EnablePointEffector();
-                    southmagController.EnablePointEffector();
+                    OnRotateOffMagStick();
                 }
                 
             } else if (inputManager.RotateRightKey) {
@@ -85,10 +82,7 @@ public class PlayerController : MonoBehaviour
                     angleNumber = 3;
                 }
                 if (isMovableMagStick) {
-                    moveMagController.SetPosConstraintDisable();
-                    isMovableMagStick = false;
-                    northMagController.EnablePointEffector();
-                    southmagController.EnablePointEffector();
+                    OnRotateOffMagStick();
                 }
             }
         } else {        // 回転中の処理。
@@ -168,10 +162,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isGrounded = true;
-        } else if((collision.gameObject.tag == "Movable Magnet N" || collision.gameObject.tag == "Movable Magnet S") && isMovableMagStick) {
-            movableMag = collision.gameObject;
-            moveMagController = collision.gameObject.GetComponent<MovableMagnetContoroller>();
-            moveMagController.SetPosConstraintEnable();
         }
         
     }
@@ -205,9 +195,28 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void SetMovableMagStickFlg()
+    public void SetMovableMagStickFlg(Collision2D collision)
     {
+        movableMag = collision.gameObject;
+        moveMagController = movableMag.GetComponent<MovableMagnetContoroller>();
+        moveMagController.SetPosConstraintEnable();
         isMovableMagStick = true;
+        northMagController.DisablePointEffector();
+        southmagController.DisablePointEffector();
+    }
+
+    // 回転したときにくっついている磁石を離すふるまいをしていただく
+    private void OnRotateOffMagStick()
+    {
+        moveMagController.SetPosConstraintDisable();
+        isMovableMagStick = false;
+        northMagController.EnablePointEffector();
+        southmagController.EnablePointEffector();
+    }
+
+    public bool GetisMovableMagStck()
+    {
+        return isMovableMagStick;
     }
 
 }

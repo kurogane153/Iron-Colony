@@ -28,7 +28,7 @@ public class MagnetController : MonoBehaviour {
         N_mag,
         S_mag
     }
-    [SerializeField] MagPole Pole = MagPole.None;
+    [SerializeField] private MagPole Pole = MagPole.None;
 
     private void Awake()
     {
@@ -55,9 +55,7 @@ public class MagnetController : MonoBehaviour {
     {
         if (effectorEnabledTime > 0f) {
             effectorEnabledTime -= Time.deltaTime;
-            var semitransparentColor = color;
-            semitransparentColor.a = 0.5f;
-            sprite.color = semitransparentColor;
+            Transparentize_half();
             if (effectorEnabledTime <= 0f) {
                 effector2D.enabled = true;
                 sprite.color = color;
@@ -72,64 +70,27 @@ public class MagnetController : MonoBehaviour {
         
         // 自分の極とプレイヤーの極を比較して、吸引か反発か切り替えている。
         if ((collision.tag == "N_mag" || collision.tag == "S_mag") && !isPoleEnter) {
-            distanceN = (transform.position - playerMagN.transform.position).sqrMagnitude;
-            distanceS = (transform.position - playerMagS.transform.position).sqrMagnitude;
-           
-            //ここでなんと、プレイヤーと磁石のワールド座標での2点間の角度をとっている！！！！！！！！！！！！！！！！
-            Vector3 diff = transform.position - player.transform.position;
-            Vector3 axis = Vector3.Cross(player.transform.forward, diff);
-            float angle = Vector3.Angle(player.transform.right*-1, diff) * (axis.x < 0 ? -1 : 1);
-            Debug.Log(angle);
-
-            if ( (-45.5f <= angle && angle < 0) || (0 <= angle && angle < 45.5f)) {
-                conflictAngle = 0;
-            } else if ( 45.5f <= angle && angle < 135.5f) {
-                conflictAngle = 1;
-            } else if ( 135.5f <= angle || angle < -135.5f) {
-                conflictAngle = 2;
-            } else {
-                conflictAngle = 3;
-            }
+            conflictAngle = Find_hit_angle();
             switch (conflictAngle) {
                 case 0:
                 case 2:
                     if (playerController.angleNumber == 1 || playerController.angleNumber == 3) {
                         effector2D.enabled = false;
-                        var semitransparentColor = color;
-                        semitransparentColor.a = 0.5f;
-                        sprite.color = semitransparentColor;
+                        Transparentize_half();
+                    } else {
+                        Decide_force_magnitude();
                     }
                     break;
                 case 1:
                 case 3:
                     if (playerController.angleNumber == 0 || playerController.angleNumber == 2) {
                         effector2D.enabled = false;
-                        var semitransparentColor = color;
-                        semitransparentColor.a = 0.5f;
-                        sprite.color = semitransparentColor;
+                        Transparentize_half();
+                    } else {
+                        Decide_force_magnitude();
                     }
                     break;
 
-            }
-            Debug.Log(conflictAngle);
-            if (Pole == MagPole.N_mag) {
-                
-                // 自分がN極で、プレイヤーのN極のほうが磁石と近かったら、反発モードにする。
-                if (distanceN < distanceS) {
-                    effector2D.forceMagnitude = -myForceMagunitude;
-                    // S極のほうが近かったら吸引モード
-                } else {
-                    effector2D.forceMagnitude = myForceMagunitude;
-                }
-                
-            } else if (Pole == MagPole.S_mag) {
-                // 自分がN極で、プレイヤーのS極のほうが磁石と近かったら、反発モードにする。
-                if (distanceN < distanceS) {
-                    effector2D.forceMagnitude = myForceMagunitude;
-                    // N極のほうが近かったら吸引モード
-                } else {
-                    effector2D.forceMagnitude = -myForceMagunitude;
-                }
             }
             isPoleEnter = true;
             enterPole = collision.tag;
@@ -141,66 +102,25 @@ public class MagnetController : MonoBehaviour {
     {
         // 自分の極とプレイヤーの極を比較して、吸引か反発か切り替えている。
         if (collision.tag == "N_mag" || collision.tag == "S_mag") {
-            distanceN = (transform.position - playerMagN.transform.position).sqrMagnitude;
-            distanceS = (transform.position - playerMagS.transform.position).sqrMagnitude;
-
-            //ここでなんと、プレイヤーと磁石のワールド座標での2点間の角度をとっている！！！！！！！！！！！！！！！！
-            Vector3 diff = transform.position - player.transform.position;
-            Vector3 axis = Vector3.Cross(player.transform.forward, diff);
-            float angle = Vector3.Angle(player.transform.right * -1, diff) * (axis.x < 0 ? -1 : 1);
-
-            if ((-45.5f <= angle && angle < 0) || (0 <= angle && angle < 45.5f)) {
-                conflictAngle = 0;
-            } else if (45.5f <= angle && angle < 135.5f) {
-                conflictAngle = 1;
-            } else if (135.5f <= angle || angle < -135.5f) {
-                conflictAngle = 2;
-            } else {
-                conflictAngle = 3;
-            }
+            conflictAngle = Find_hit_angle();
             switch (conflictAngle) {
                 case 0:
                 case 2:
                     if (playerController.angleNumber == 1 || playerController.angleNumber == 3) {
-                        effector2D.enabled = false;
-                        var semitransparentColor = color;
-                        semitransparentColor.a = 0.5f;
-                        sprite.color = semitransparentColor;
-                        isPoleEnter = false;
-                        effectorEnabledTime = effectorEnabledCounter/10;
+                        Invalid_temporarily();
+                    } else {
+                        Decide_force_magnitude();
                     }
                     break;
                 case 1:
                 case 3:
                     if (playerController.angleNumber == 0 || playerController.angleNumber == 2) {
-                        effector2D.enabled = false;
-                        var semitransparentColor = color;
-                        semitransparentColor.a = 0.5f;
-                        sprite.color = semitransparentColor;
-                        isPoleEnter = false;
-                        effectorEnabledTime = effectorEnabledCounter/10;
+                        Invalid_temporarily();
+                    } else {
+                        Decide_force_magnitude();
                     }
                     break;
 
-            }
-            if (Pole == MagPole.N_mag) {
-
-                // 自分がN極で、プレイヤーのN極のほうが磁石と近かったら、反発モードにする。
-                if (distanceN < distanceS) {
-                    effector2D.forceMagnitude = -myForceMagunitude;
-                    // S極のほうが近かったら吸引モード
-                } else {
-                    effector2D.forceMagnitude = myForceMagunitude;
-                }
-
-            } else if (Pole == MagPole.S_mag) {
-                // 自分がN極で、プレイヤーのS極のほうが磁石と近かったら、反発モードにする。
-                if (distanceN < distanceS) {
-                    effector2D.forceMagnitude = myForceMagunitude;
-                    // N極のほうが近かったら吸引モード
-                } else {
-                    effector2D.forceMagnitude = -myForceMagunitude;
-                }
             }
             isPoleEnter = true;
             enterPole = collision.tag;
@@ -209,15 +129,87 @@ public class MagnetController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == enterPole && isPoleEnter) {
-            //if (Pole == MagPole.N_mag) {
-            //    effector2D.forceMagnitude = myForceMagunitude;
-            //} else if (Pole == MagPole.S_mag) {
-            //    effector2D.forceMagnitude = myForceMagunitude;
-            //}
-            
+        if (collision.tag == "N_mag" || collision.tag == "S_mag") {
             isPoleEnter = false;
             effectorEnabledTime = effectorEnabledCounter;
+            playerController.Change_Normal_Sprite();
+            playerController.isWallStick = false;
+        }
+    }
+
+    //半透明にする関数
+    private void Transparentize_half()
+    {
+        Color semitransparentColor = color;
+        semitransparentColor.a = 0.5f;
+        sprite.color = semitransparentColor;
+        playerController.Change_Normal_Sprite();
+    }
+
+    //プレイヤーから磁界のない向きで近づかれたときに磁石の磁力を一時的に無効化させるふるまい
+    //Stayのときに呼ばれるもので、プレイヤーが磁界から離れたら通常より早く復帰する。
+    //中で半透明にする処理も読んでいる
+    private void Invalid_temporarily()
+    {
+        effector2D.enabled = false;
+        Transparentize_half();
+        isPoleEnter = false;
+        effectorEnabledTime = effectorEnabledCounter / 10;
+    }
+
+    //conflict_Angleに衝突してきた位置の情報を入れている
+    // 0 : 右
+    // 1 : 上
+    // 2 : 左
+    // 3 : 右
+    private int Find_hit_angle()
+    {
+        distanceN = (transform.position - playerMagN.transform.position).sqrMagnitude;
+        distanceS = (transform.position - playerMagS.transform.position).sqrMagnitude;
+
+        //ここでなんと、プレイヤーと磁石のワールド座標での2点間の角度をとっている！！！！！！！！！！！！！！！！
+        Vector3 diff = transform.position - player.transform.position;
+        Vector3 axis = Vector3.Cross(player.transform.forward, diff);
+        float angle = Vector3.Angle(player.transform.right * -1, diff) * (axis.x < 0 ? -1 : 1);
+
+        if ((-45.5f <= angle && angle < 0) || (0 <= angle && angle < 45.5f)) {
+            return 0;
+        } else if (45.5f <= angle && angle < 135.5f) {
+            return 1;
+        } else if (135.5f <= angle || angle < -135.5f) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    //磁石の極とプレイヤーが近づけさせてきた極を参照して、吸引するか反発するか切り替えている。
+    private void Decide_force_magnitude()
+    {
+        if (Pole == MagPole.N_mag) {
+
+            // 自分がN極で、プレイヤーのN極のほうが磁石と近かったら、反発モードにする。
+            if (distanceN < distanceS) {
+                effector2D.forceMagnitude = -myForceMagunitude;
+                playerController.Change_Effectively_S_Pole();
+                // S極のほうが近かったら吸引モード
+            } else {
+                effector2D.forceMagnitude = myForceMagunitude;
+                playerController.Change_Effectively_N_Pole();
+                playerController.isWallStick = true;
+            }
+
+        } else if (Pole == MagPole.S_mag) {
+            // 自分がS極で、プレイヤーのS極のほうが磁石と近かったら、吸引モードにする。
+            if (distanceN < distanceS) {
+                effector2D.forceMagnitude = myForceMagunitude;
+                playerController.Change_Effectively_N_Pole();
+                playerController.isWallStick = true;
+                // N極のほうが近かったら反発モード
+            } else {
+                effector2D.forceMagnitude = -myForceMagunitude;
+                playerController.Change_Effectively_S_Pole();
+            }
         }
     }
 

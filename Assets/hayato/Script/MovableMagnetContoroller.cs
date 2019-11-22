@@ -14,7 +14,6 @@ public class MovableMagnetContoroller : MonoBehaviour {
     SpriteRenderer sprite;
     Color color;
 
-    // Use this for initialization
     void Start () {
         positionConstraint = GetComponent<PositionConstraint>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -22,13 +21,10 @@ public class MovableMagnetContoroller : MonoBehaviour {
         color = sprite.color;
     }
 	
-	// Update is called once per frame
 	void Update () {
 		if(0 < posConstraintReEnableTime) {
             posConstraintReEnableTime -= Time.deltaTime;
-            var semitransparentColor = color;
-            semitransparentColor.a = 0.5f;
-            sprite.color = semitransparentColor;
+            Transparentize_half();
             if (posConstraintReEnableTime <= 0) {
                 sprite.color = color;
                 isMagStickReleased = false;
@@ -39,7 +35,6 @@ public class MovableMagnetContoroller : MonoBehaviour {
     public void SetPosConstraintEnable()
     {
         if(!isMagStickReleased) positionConstraint.enabled = true;
-
     }
 
     public void SetPosConstraintDisable()
@@ -49,5 +44,13 @@ public class MovableMagnetContoroller : MonoBehaviour {
         posConstraintReEnableTime = ConstraintEnableCounter;
     }
 
-    
+    //半透明にする関数
+    private void Transparentize_half()
+    {
+        Color semitransparentColor = color;
+        semitransparentColor.a = 0.5f;
+        sprite.color = semitransparentColor;
+    }
+
+
 }

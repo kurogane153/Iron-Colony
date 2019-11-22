@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    SpriteRenderer Renderer;
+    public Sprite NormalSprite;
+    public Sprite Active_N_Pole_Sprite;
+    public Sprite Active_S_Pole_Sprite;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask platformLayer;
     private bool isGrounded = true;
@@ -50,6 +55,7 @@ public class PlayerController : MonoBehaviour
         childSMagPole = transform.GetChild(1).gameObject;
         northMagController = childNMagPole.GetComponent<NorthMagPoleScript>();
         southmagController = childSMagPole.GetComponent<SouthMagPoleScript>();
+        Renderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour
             if (inputManager.JumpKey == 0) {
                 isJumping = false;
             }
-            if (!isJumping) {
+            if (!isJumping && !isWallStick) {
                 if(rb.velocity.y <= -10) {
                     rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 0));
                 } else if(rb.velocity.y <= 0) {
@@ -174,6 +180,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Magnet") {
+            
             if (isJumpingCheck && inputManager.JumpKey != 0) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
@@ -191,6 +198,13 @@ public class PlayerController : MonoBehaviour
                 _jumpPower = playerManager.JumpPower;
                 isWallStick = false;
             }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Magnet") {
+            isWallStick = false;
         }
     }
 
@@ -217,6 +231,21 @@ public class PlayerController : MonoBehaviour
     public bool GetisMovableMagStck()
     {
         return isMovableMagStick;
+    }
+
+    public void Change_Effectively_N_Pole()
+    {
+        Renderer.sprite = Active_N_Pole_Sprite;
+    }
+
+    public void Change_Effectively_S_Pole()
+    {
+        Renderer.sprite = Active_S_Pole_Sprite;
+    }
+
+    public void Change_Normal_Sprite()
+    {
+        Renderer.sprite = NormalSprite;
     }
 
 }

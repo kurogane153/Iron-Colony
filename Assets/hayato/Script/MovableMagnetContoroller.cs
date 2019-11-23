@@ -6,7 +6,6 @@ using UnityEngine.Animations;
 public class MovableMagnetContoroller : MonoBehaviour {
 
     PositionConstraint positionConstraint;
-    BoxCollider2D boxCollider;
     [SerializeField] private float ConstraintEnableCounter = 1f;
     private float posConstraintReEnableTime;
     private bool isMagStickReleased = false;
@@ -16,7 +15,6 @@ public class MovableMagnetContoroller : MonoBehaviour {
 
     void Start () {
         positionConstraint = GetComponent<PositionConstraint>();
-        boxCollider = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         color = sprite.color;
     }
@@ -34,8 +32,9 @@ public class MovableMagnetContoroller : MonoBehaviour {
 
     public void SetPosConstraintEnable()
     {
-        if(!isMagStickReleased) positionConstraint.enabled = true;
-    }
+        positionConstraint.translationOffset = new Vector3(gameObject.transform.position.x ,0 , 0) - new Vector3(GameObject.Find("Mairo").gameObject.transform.position.x, 0, 0);
+        if (!isMagStickReleased) positionConstraint.enabled = true;
+     }
 
     public void SetPosConstraintDisable()
     {

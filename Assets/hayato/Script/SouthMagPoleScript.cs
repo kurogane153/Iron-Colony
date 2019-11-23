@@ -10,7 +10,6 @@ public class SouthMagPoleScript : MonoBehaviour {
     private float MyForceMagnitude;
     [SerializeField] private float movableMagImpactPower = 2f;
 
-    // Use this for initialization
     void Start()
     {
         pointEffector = GetComponent<PointEffector2D>();
@@ -18,7 +17,6 @@ public class SouthMagPoleScript : MonoBehaviour {
         playerController = Mairo.GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
 

@@ -1,26 +1,34 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.Collections;
+
 public class StageScroll : MonoBehaviour
 {
+    float back_x = 0;
     private GameObject player;
-
-    [SerializeField]
-    public float scrollSpeedX = 0.1f;
-    [SerializeField]
-    private float scrollSpeedY = 0.1f;
+    public float speed = 10;
+    public int spriteCount = 3;
 
     void Start()
     {
-        player = GameObject.Find("mairo");
-        GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_MainTex", Vector2.zero);
+        player = GameObject.Find("Mairo");
     }
 
     void Update()
     {
-        var x = Mathf.Repeat(player.transform.position.x * scrollSpeedX, 1);
-        var y = Mathf.Repeat(player.transform.position.y * scrollSpeedY, 1);
-        var offset = new Vector2(y,x);
-        GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_MainTex", offset);
+        if (back_x != player.transform.position.x)
+        {
+            if (player.transform.position.x > 0)
+            {
+                // 左へ移動
+                transform.position += Vector3.left * speed * player.transform.position.x;
+            }
+        }
+        else if (back_x == player.transform.position.x)
+        {
+            
+        }
+        back_x = player.transform.position.x;
     }
+
 }

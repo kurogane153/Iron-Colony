@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class testmayu : MonoBehaviour
+public class TestScroll : MonoBehaviour
 {
     float back_x = 0;
     private GameObject player;
@@ -11,7 +11,7 @@ public class testmayu : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("mairo");
+        player = GameObject.Find("Mairo");
     }
 
     void Update()
@@ -21,8 +21,11 @@ public class testmayu : MonoBehaviour
             if (player.transform.position.x > 0)
             {
                 // 左へ移動
-                transform.position += Vector3.left * speed * player.transform.position.x;
+                transform.position += Vector3.right * speed * player.transform.position.x;
             }
+        }else if (back_x == player.transform.position.x)
+        {
+            transform.position +=Vector3.right * 0.0f;
         }
         back_x = player.transform.position.x;
     }
@@ -32,6 +35,6 @@ public class testmayu : MonoBehaviour
         // スプライトの幅を取得
         float width = GetComponent<SpriteRenderer>().bounds.size.x;
         // 幅ｘ個数分だけ右へ移動
-        transform.position += Vector3.right * width * spriteCount;
+        transform.position += Vector3.left * width * spriteCount;
     }
 }

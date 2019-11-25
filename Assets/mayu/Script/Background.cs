@@ -2,29 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Background : MonoBehaviour {
+/// <summary>
+/// 【背景のコントロール用クラス】
+///     背景は3枚、カメラから見切れたら回り込む
+/// </summary>
+/// 
 
-    // スクロールするスピード
-    public float speed = 0.1f;
-    private GameObject player;
+public class Background : MonoBehaviour
+{
+
+    // 背景の枚数
+    int spriteCount = 3;
+    // 背景が回り込み
+    float rightOffset = 2;
+    float leftOffset = -1f;
+
+    Transform bgTfm;
+    SpriteRenderer mySpriteRndr;
+    float width;
 
     void Start()
     {
-        player = GameObject.Find("mairo");
+        bgTfm = transform;
+        mySpriteRndr = GetComponent<SpriteRenderer>();
+        width = mySpriteRndr.bounds.size.x;
     }
+
 
     void Update()
     {
-        if (player.transform.position.x > 0)
+        // 座標変換
+        Vector3 myViewport = Camera.main.WorldToViewportPoint(bgTfm.position);
+
+        // 背景の回り込み(カメラがX軸プラス方向に移動時)
+        if (myViewport.x < leftOffset)
         {
-            // 時間によってYの値が0から1に変化していく。1になったら0に戻り、繰り返す。
-            float x = Mathf.Repeat(player.transform.position.x * speed, 1);
-
-            // Yの値がずれていくオフセットを作成
-            Vector2 offset = new Vector2(x, 0);
-
-            // マテリアルにオフセットを設定する
-            GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_MainTex", offset);
+            bgTfm.position += Vector3.right * (width * spriteCount);
+        }
+        // 背景の回り込み(カメラがX軸マイナス方向に移動時)
+        else if (myViewport.x > rightOffset)
+        {
+            bgTfm.position -= Vector3.right * (width * spriteCount);
         }
     }
 }

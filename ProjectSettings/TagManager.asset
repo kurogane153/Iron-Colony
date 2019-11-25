@@ -9,6 +9,8 @@ TagManager:
   - S_mag
   - Magnet
   - Mairo
+  - Movable Magnet S
+  - Movable Magnet N
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - North Magnetic Pole
   - South Magnetic Pole
   - Player
-  - 
-  - 
+  - Movable Magnet N
+  - Movable Magnet S
   - 
   - 
   - 

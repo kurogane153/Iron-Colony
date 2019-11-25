@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    SpriteRenderer Renderer;
+    public Sprite NormalSprite;
+    public Sprite Active_N_Pole_Sprite;
+    public Sprite Active_S_Pole_Sprite;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask platformLayer;
     private bool isGrounded = true;
@@ -29,10 +34,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject eye;
 
-    void Awake()
-    {
-        
-    }
+    NorthMagPoleScript northMagController;
+    SouthMagPoleScript southmagController;
+
+    private GameObject movableMag;
+    MovableMagnetContoroller moveMagController;
+    private bool isMovableMagStick;
 
     void Start()
     {
@@ -41,6 +48,9 @@ public class PlayerController : MonoBehaviour
         jumpTimeCounter = playerManager.JumpTime;
         childNMagPole = transform.GetChild(0).gameObject;
         childSMagPole = transform.GetChild(1).gameObject;
+        northMagController = childNMagPole.GetComponent<NorthMagPoleScript>();
+        southmagController = childSMagPole.GetComponent<SouthMagPoleScript>();
+        Renderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -61,12 +71,19 @@ public class PlayerController : MonoBehaviour
                 if( 3 < ++angleNumber) {
                     angleNumber = 0;
                 }
+                if (isMovableMagStick) {
+                    OnRotateOffMagStick();
+                }
+                
             } else if (inputManager.RotateRightKey) {
                 rotateAngle -= 90f;
                 isRotating = true;
                 rotateTimer = playerManager.RotationSecond;
                 if ( --angleNumber < 0) {
                     angleNumber = 3;
+                }
+                if (isMovableMagStick) {
+                    OnRotateOffMagStick();
                 }
             }
         } else {        // 回転中の処理。
@@ -80,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 地面にいるとき
         if (isGrounded) {
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
@@ -90,26 +108,40 @@ public class PlayerController : MonoBehaviour
                 _jumpPower = playerManager.JumpPower;
                 isWallStick = false;
             }
+        // 空中にいるとき
         } else {
+            // ジャンプキーが話されたらジャンプ中でないことにする
             if (inputManager.JumpKey == 0) {
                 isJumping = false;
             }
-            if (!isJumping) {
+            // ジャンプしてないかつ磁石の側面にくっついていないとき
+            if (!isJumping && !isWallStick) {
+                // 落ちる力が一定を超えるとそれ以上落下速度が上がらないようにする
                 if(rb.velocity.y <= -10) {
                     rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 0));
                 } else if(rb.velocity.y <= 0) {
+                    // 落ち始めると重力を使って落ちるようにする
                     rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), Physics.gravity.y * playerManager.GravityRate));
                 } else {
-                    _jumpPower -= playerManager.JumpPowerAttenuation * 2;
-                    rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
+                    // ジャンプパワーがまだあるときは小ジャンプ実現のためにジャンプパワー軽減率を使う
+                    if (0 <= _jumpPower) {
+                        _jumpPower -= playerManager.JumpPowerAttenuation * 2;
+                        rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
+                    // ジャンプパワーがないときは重力を使って落とす
+                    } else {
+                        rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), Physics.gravity.y * playerManager.GravityRate));
+                    }
                 }
             }
         }
 
+        // ジャンプ中
         if (isJumping) {
             
+            // ジャンプキーを押し続けていられる時間をへらす
             jumpTimeCounter -= Time.deltaTime;
 
+            // ジャンプキーを押し続けている間は通常のジャンプパワー軽減率がはたらく
             if (inputManager.JumpKey == 2) {
                 _jumpPower -= playerManager.JumpPowerAttenuation;
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.JumpMoveSpeed - rb.velocity.x), 1 * _jumpPower));
@@ -117,9 +149,11 @@ public class PlayerController : MonoBehaviour
                 _jumpPower -= playerManager.JumpPowerAttenuation;
 
             }
+            // ジャンプキーを押し続けていられる時間がくると、ジャンプ中を解除する
             if (jumpTimeCounter < 0) {
                 isJumping = false;
             }
+            // 下に落ちているときはジャンプ中を解除
             if (rb.velocity.y <= -1) {
                 isJumping = false;
             }
@@ -129,6 +163,7 @@ public class PlayerController : MonoBehaviour
             isJumpingCheck = true;
         }
 
+        // 子要素の磁力が非アクティブ時、復活までの時間を減らし、その時間になると磁力を復活させる
         if (!childEnabled) {
             childEnableCounter -= Time.deltaTime;
             if (childEnableCounter <= 0f) {
@@ -147,6 +182,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Magnet") {
             isGrounded = true;
         }
+        
     }
 
     // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！
@@ -157,6 +193,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Magnet") {
+            
             if (isJumpingCheck && inputManager.JumpKey != 0) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
@@ -177,5 +214,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Magnet") {
+            isWallStick = false;
+        }
+    }
+
+    // 動く磁石をくっつかせたときの処理
+    // 動く磁石を取得してそれのコンストレイントポジションをアクティブにし、
+    // 子要素の磁力を切る
+    public void SetMovableMagStickFlg(Collision2D collision)
+    {
+        movableMag = collision.gameObject;
+        moveMagController = movableMag.GetComponent<MovableMagnetContoroller>();
+        moveMagController.SetPosConstraintEnable();
+        isMovableMagStick = true;
+        northMagController.DisablePointEffector();
+        southmagController.DisablePointEffector();
+    }
+
+    // 回転したときにくっついている磁石を離すふるまいをしていただく
+    private void OnRotateOffMagStick()
+    {
+        moveMagController.SetPosConstraintDisable();
+        isMovableMagStick = false;
+        northMagController.EnablePointEffector();
+        southmagController.EnablePointEffector();
+    }
+
+    //　他オブジェクトから使う用。動く磁石をくっつかせているかわかる
+    public bool GetisMovableMagStck()
+    {
+        return isMovableMagStick;
+    }
+
+    // N極がアクティブ中は画像を差し替える
+    public void Change_Effectively_N_Pole()
+    {
+        Renderer.sprite = Active_N_Pole_Sprite;
+    }
+
+    // S極がアクティブ中は画像を差し替える
+    public void Change_Effectively_S_Pole()
+    {
+        Renderer.sprite = Active_S_Pole_Sprite;
+    }
+
+    // どちらもアクティブでない、または磁界から離れると元の画像に戻す
+    public void Change_Normal_Sprite()
+    {
+        Renderer.sprite = NormalSprite;
+    }
 
 }

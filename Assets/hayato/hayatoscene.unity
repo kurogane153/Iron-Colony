@@ -222,7 +222,7 @@ Prefab:
     - target: {fileID: 8123674487922579032, guid: abe369bedd4b8444a9402722e013e743,
         type: 2}
       propertyPath: m_TranslationOffset.y
-      value: -10.09
+      value: -8.619
       objectReference: {fileID: 0}
     - target: {fileID: 8123674487922579032, guid: abe369bedd4b8444a9402722e013e743,
         type: 2}
@@ -296,7 +296,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4633059981396984, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.67
+      value: -0.801
       objectReference: {fileID: 0}
     - target: {fileID: 4633059981396984, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
       propertyPath: m_LocalPosition.z
@@ -441,6 +441,19 @@ Prefab:
         type: 2}
       propertyPath: m_Mass
       value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620907861602846, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.258
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026655659981258, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.258
+      objectReference: {fileID: 0}
+    - target: {fileID: 114498213736276530, guid: b956c82ceb0b34e4db853b5a5ab520ee,
+        type: 2}
+      propertyPath: rotationSecond
+      value: 0.36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
@@ -1172,7 +1185,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4856127330388682, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.13
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 4856127330388682, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1201,7 +1214,7 @@ Prefab:
     - target: {fileID: 250322987464653152, guid: 8734681f96717c14dbf03cfb59a493f4,
         type: 2}
       propertyPath: m_ForceTarget
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 250322987464653152, guid: 8734681f96717c14dbf03cfb59a493f4,
         type: 2}
@@ -1291,6 +1304,11 @@ Prefab:
         type: 2}
       propertyPath: m_ColliderMask.m_Bits
       value: 13824
+      objectReference: {fileID: 0}
+    - target: {fileID: 114185333021240664, guid: 8734681f96717c14dbf03cfb59a493f4,
+        type: 2}
+      propertyPath: effectorEnabledCounter
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}

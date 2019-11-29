@@ -43,7 +43,7 @@ public class SouthMagPoleScript : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet N" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+        if (collision.gameObject.tag == "Movable Magnet N" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
         }
     }

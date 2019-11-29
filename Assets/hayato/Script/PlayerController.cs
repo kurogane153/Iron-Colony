@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;
 
     private bool isRotating = false;
+    public bool GetIsRotating() { return isRotating; }
     private float rotateAngle = 0;
     private float rotateTimer = 0;
     public int angleNumber;
@@ -55,40 +56,23 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        float step = playerManager.RotationSpeed * Time.deltaTime;
         // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
-        Vector2 groundedStart = eye.transform.position;
-        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f;
+        Vector2 groundedStart = eye.transform.position - eye.transform.up * 0.38f - eye.transform.right * 0.38f;
+        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f + eye.transform.right * 0.38f;
 
         isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
         Debug.DrawLine(groundedStart, groundedEnd, Color.red);
 
         if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
             if (inputManager.RotateLeftKey) {
-                rotateAngle += 90f;
-                isRotating = true;
-                rotateTimer = playerManager.RotationSecond;
-                if( 3 < ++angleNumber) {
-                    angleNumber = 0;
-                }
-                if (isMovableMagStick) {
-                    OnRotateOffMagStick();
-                }
+                RotatingNow(90);
                 
             } else if (inputManager.RotateRightKey) {
-                rotateAngle -= 90f;
-                isRotating = true;
-                rotateTimer = playerManager.RotationSecond;
-                if ( --angleNumber < 0) {
-                    angleNumber = 3;
-                }
-                if (isMovableMagStick) {
-                    OnRotateOffMagStick();
-                }
+                RotatingNow(-90);
             }
-        } else {        // 回転中の処理。
+        } else {        // 回転中の処理。回転できるようになるまでの時間を減らしてる
             rotateTimer -= Time.deltaTime;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
             if (rotateTimer <= 0) {
                 isRotating = false;
             }
@@ -218,6 +202,27 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isWallStick = false;
+        }
+    }
+
+    // 回転ボタン押されたときの処理
+    private void RotatingNow(float Rotate)
+    {
+        rotateAngle += Rotate;
+        if (rotateAngle > 360) {
+            rotateAngle = 90;
+        }
+        if (rotateAngle < 0) {
+            rotateAngle = 270;
+        }
+        isRotating = true;
+        rotateTimer = playerManager.RotationSecond;
+        iTween.RotateTo(gameObject, iTween.Hash("z", rotateAngle, "time", playerManager.RotationSecond));
+        if (3 < ++angleNumber) {
+            angleNumber = 0;
+        }
+        if (isMovableMagStick) {
+            OnRotateOffMagStick();
         }
     }
 

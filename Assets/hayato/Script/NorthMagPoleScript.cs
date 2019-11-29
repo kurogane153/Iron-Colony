@@ -22,9 +22,9 @@ public class NorthMagPoleScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet N") {
+        if (collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             pointEffector.forceMagnitude = -MyForceMagnitude;
-        } else if (collision.gameObject.tag == "Movable Magnet S" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+        } else if (collision.gameObject.tag == "Movable Magnet S") {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
         } else if ((collision.gameObject.tag == "Movable Magnet S" || collision.gameObject.tag == "Movable Magnet N") && (playerController.angleNumber == 1 || playerController.angleNumber == 3)) {
             DisablePointEffector();
@@ -40,7 +40,7 @@ public class NorthMagPoleScript : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
         }
     }

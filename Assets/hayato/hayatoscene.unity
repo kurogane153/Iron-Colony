@@ -437,6 +437,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: d6291c5d2bbd8b84490c5e270b2e67a4,
         type: 3}
+    - target: {fileID: 50544494725336142, guid: b956c82ceb0b34e4db853b5a5ab520ee,
+        type: 2}
+      propertyPath: m_Mass
+      value: 0.45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b956c82ceb0b34e4db853b5a5ab520ee, type: 2}
   m_IsPrefabParent: 0
@@ -542,7 +547,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 328092481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.451, y: -0.904, z: -0.11702863}
+  m_LocalPosition: {x: 0.451, y: -1.01, z: -0.11702863}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -561,11 +566,11 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 0.7
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 2
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1818360608 &328092486
@@ -1163,11 +1168,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4856127330388682, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 3.121
+      value: 5.1
       objectReference: {fileID: 0}
     - target: {fileID: 4856127330388682, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.424
+      value: -1.13
       objectReference: {fileID: 0}
     - target: {fileID: 4856127330388682, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1280,7 +1285,12 @@ Prefab:
     - target: {fileID: 250322987464653152, guid: 8734681f96717c14dbf03cfb59a493f4,
         type: 2}
       propertyPath: m_DistanceScale
-      value: 210.28
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 250322987464653152, guid: 8734681f96717c14dbf03cfb59a493f4,
+        type: 2}
+      propertyPath: m_ColliderMask.m_Bits
+      value: 13824
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8734681f96717c14dbf03cfb59a493f4, type: 2}

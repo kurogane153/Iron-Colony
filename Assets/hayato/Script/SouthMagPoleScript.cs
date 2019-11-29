@@ -28,8 +28,17 @@ public class SouthMagPoleScript : MonoBehaviour {
             pointEffector.forceMagnitude = -MyForceMagnitude;
         } else if (collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
+        } else if ((collision.gameObject.tag == "Movable Magnet S" || collision.gameObject.tag == "Movable Magnet N") && (playerController.angleNumber == 1 || playerController.angleNumber == 3)) {
+            DisablePointEffector();
         }
 
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Movable Magnet N") {
+            DisablePointEffector();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,6 +52,8 @@ public class SouthMagPoleScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Movable Magnet S") {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
+        } else if(collision.gameObject.tag == "Movable Magnet N") {
+            EnablePointEffector();
         }
     }
 

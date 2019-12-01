@@ -249,10 +249,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //　他オブジェクトから使う用。動く磁石をくっつかせているかわかる
-    public bool GetisMovableMagStck()
-    {
-        return isMovableMagStick;
-    }
+    public bool GetisMovableMagStck() { return isMovableMagStick; }
 
     // N極がアクティブ中は画像を差し替える
     public void Change_Effectively_N_Pole()

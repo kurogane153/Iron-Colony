@@ -895,6 +895,11 @@ Prefab:
       propertyPath: m_Name
       value: S_Magnet
       objectReference: {fileID: 0}
+    - target: {fileID: 114001320445290572, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: effectorEnabledCounter
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a341f92755060145b1ccbce0f0e518d, type: 2}
   m_IsPrefabParent: 0

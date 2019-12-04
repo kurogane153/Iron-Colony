@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
             if (isJumpingCheck && inputManager.JumpKey != 0) {
+                SoundManager.Instance.PlaySeByName("Jump");
                 jumpTimeCounter = playerManager.JumpTime;
                 isJumpingCheck = false;
                 isJumping = true;

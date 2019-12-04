@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NorthMagPoleScript : MonoBehaviour {
 
+    public GameObject particle;
     public GameObject Mairo;
     PlayerController playerController;
     PointEffector2D pointEffector;
@@ -43,6 +44,11 @@ public class NorthMagPoleScript : MonoBehaviour {
         if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
         }
+        if (collision.gameObject.tag == "Magnet")
+        {
+            Instantiate(particle, transform.position, transform.rotation);
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)

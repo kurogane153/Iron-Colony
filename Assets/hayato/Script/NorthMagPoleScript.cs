@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NorthMagPoleScript : MonoBehaviour {
 
+    public GameObject particle;
+    public GameObject RepulsionParticle;
     public GameObject Mairo;
     PlayerController playerController;
     PointEffector2D pointEffector;
@@ -22,24 +24,38 @@ public class NorthMagPoleScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet N") {
+        if (collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             pointEffector.forceMagnitude = -MyForceMagnitude;
-        } else if (collision.gameObject.tag == "Movable Magnet S" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+            Instantiate(RepulsionParticle, transform.position, transform.rotation);
+        } else if (collision.gameObject.tag == "Movable Magnet S") {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
+        } else if ((collision.gameObject.tag == "Movable Magnet S" || collision.gameObject.tag == "Movable Magnet N") && (playerController.angleNumber == 1 || playerController.angleNumber == 3)) {
+            DisablePointEffector();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Movable Magnet S") {
+            DisablePointEffector();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
         }
+       
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Movable Magnet N") {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
+        } else if (collision.gameObject.tag == "Movable Magnet S") {
+            EnablePointEffector();
         }
     }
 
@@ -52,6 +68,11 @@ public class NorthMagPoleScript : MonoBehaviour {
     public void DisablePointEffector ()
     {
         pointEffector.enabled = false;
+    }
+
+    public void StickPerticleEnable()
+    {
+        Instantiate(particle, transform.position, transform.rotation);
     }
 
 }

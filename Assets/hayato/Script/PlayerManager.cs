@@ -118,14 +118,6 @@ public class PlayerManager : MonoBehaviour
         set { gravityRate = value; }
     }
 
-    /* -- 回転速度 --------------------------------------------------------------------------------- */
-    [SerializeField, Range(0f, 1000f)] private float rotationSpeed = 320f;
-    public float RotationSpeed
-    {
-        get { return rotationSpeed; }
-        set { rotationSpeed = value; }
-    }
-
     /* -- 回転間隔 --------------------------------------------------------------------------------- */
     [SerializeField, Range(0f, 2f)] private float rotationSecond = 0.35f;
     public float RotationSecond

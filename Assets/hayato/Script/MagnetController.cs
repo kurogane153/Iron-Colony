@@ -20,6 +20,8 @@ public class MagnetController : MonoBehaviour {
     GameObject playerMagN;
     GameObject playerMagS;
 
+    public GameObject RepulsionParticle;
+
     PlayerController playerController;
 
     private enum MagPole
@@ -101,7 +103,7 @@ public class MagnetController : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         // 自分の極とプレイヤーの極を比較して、吸引か反発か切り替えている。
-        if (collision.tag == "N_mag" || collision.tag == "S_mag") {
+        if (collision.tag == "N_mag" || collision.tag == "S_mag" && !playerController.GetIsRotating()) {
             conflictAngle = Find_hit_angle();
             switch (conflictAngle) {
                 case 0:
@@ -192,23 +194,43 @@ public class MagnetController : MonoBehaviour {
             if (distanceN < distanceS) {
                 effector2D.forceMagnitude = -myForceMagunitude;
                 playerController.Change_Effectively_S_Pole();
+                if (!playerController.GetIsRotating())
+                {
+                    Instantiate(RepulsionParticle, transform.position, transform.rotation);
+
+                }
                 // S極のほうが近かったら吸引モード
             } else {
                 effector2D.forceMagnitude = myForceMagunitude;
                 playerController.Change_Effectively_N_Pole();
                 playerController.isWallStick = true;
+                if (!playerController.GetIsRotating() && !isPoleEnter)
+                {
+                    playerMagS.GetComponent<SouthMagPoleScript>().StickPerticleEnable();
+
+                }
             }
 
         } else if (Pole == MagPole.S_mag) {
-            // 自分がS極で、プレイヤーのS極のほうが磁石と近かったら、吸引モードにする。
+            // 自分がS極で、プレイヤーのN極のほうが磁石と近かったら、吸引モードにする。
             if (distanceN < distanceS) {
                 effector2D.forceMagnitude = myForceMagunitude;
                 playerController.Change_Effectively_N_Pole();
                 playerController.isWallStick = true;
-                // N極のほうが近かったら反発モード
+                if (!playerController.GetIsRotating() && !isPoleEnter)
+                {
+                    playerMagN.GetComponent<NorthMagPoleScript>().StickPerticleEnable();
+
+                }
+                // S極のほうが近かったら反発モード
             } else {
                 effector2D.forceMagnitude = -myForceMagunitude;
                 playerController.Change_Effectively_S_Pole();
+                if (!playerController.GetIsRotating())
+                {
+                    Instantiate(RepulsionParticle, transform.position, transform.rotation);
+
+                }
             }
         }
     }

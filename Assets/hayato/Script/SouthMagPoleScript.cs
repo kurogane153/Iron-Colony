@@ -5,6 +5,7 @@ using UnityEngine;
 public class SouthMagPoleScript : MonoBehaviour {
 
     public GameObject particle;
+    public GameObject RepulsionParticle;
     public GameObject Mairo;
     PlayerController playerController;
     PointEffector2D pointEffector;
@@ -27,6 +28,7 @@ public class SouthMagPoleScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Movable Magnet S") {
             pointEffector.forceMagnitude = -MyForceMagnitude;
+            Instantiate(RepulsionParticle, transform.position, transform.rotation);
         } else if (collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
         } else if ((collision.gameObject.tag == "Movable Magnet S" || collision.gameObject.tag == "Movable Magnet N") && (playerController.angleNumber == 1 || playerController.angleNumber == 3)) {
@@ -47,7 +49,7 @@ public class SouthMagPoleScript : MonoBehaviour {
         if (collision.gameObject.tag == "Movable Magnet N" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
         }
-        if (collision.gameObject.tag == "Magnet")
+        else if (collision.gameObject.tag == "Magnet" && !playerController.GetIsRotating())
         {
             Instantiate(particle, transform.position, transform.rotation);
         }
@@ -71,5 +73,10 @@ public class SouthMagPoleScript : MonoBehaviour {
     public void DisablePointEffector()
     {
         pointEffector.enabled = false;
+    }
+
+    public void StickPerticleEnable()
+    {
+        Instantiate(particle, transform.position, transform.rotation);
     }
 }

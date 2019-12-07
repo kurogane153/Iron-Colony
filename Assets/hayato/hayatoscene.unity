@@ -260,6 +260,28 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114280612352463522, guid: 6285a1f7d0f506f45be645af5ccbc9c5,
+        type: 2}
+      propertyPath: particle
+      value: 
+      objectReference: {fileID: 100000, guid: 3156817f64ec68948ad6bb26569b9ef5, type: 2}
+    - target: {fileID: 114280612352463522, guid: 6285a1f7d0f506f45be645af5ccbc9c5,
+        type: 2}
+      propertyPath: RepulsionParticle
+      value: 
+      objectReference: {fileID: 1557201259755098, guid: f493dc5b4ee876546b2f1c776d6286ef,
+        type: 2}
+    - target: {fileID: 114188488459161318, guid: 6285a1f7d0f506f45be645af5ccbc9c5,
+        type: 2}
+      propertyPath: particle
+      value: 
+      objectReference: {fileID: 100000, guid: 3156817f64ec68948ad6bb26569b9ef5, type: 2}
+    - target: {fileID: 114188488459161318, guid: 6285a1f7d0f506f45be645af5ccbc9c5,
+        type: 2}
+      propertyPath: RepulsionParticle
+      value: 
+      objectReference: {fileID: 1557201259755098, guid: f493dc5b4ee876546b2f1c776d6286ef,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6285a1f7d0f506f45be645af5ccbc9c5, type: 2}
   m_IsPrefabParent: 0
@@ -899,6 +921,34 @@ Prefab:
         type: 2}
       propertyPath: effectorEnabledCounter
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001320445290572, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: RepulsionParticle
+      value: 
+      objectReference: {fileID: 1557201259755098, guid: f493dc5b4ee876546b2f1c776d6286ef,
+        type: 2}
+    - target: {fileID: 114001320445290572, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: StickImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 71d4fef6518e38d41aafb843416e9871,
+        type: 3}
+    - target: {fileID: 114001320445290572, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: NormalImage
+      value: 
+      objectReference: {fileID: 21300000, guid: baaecaf15ce3a9d4a84a2f9f231cb264,
+        type: 3}
+    - target: {fileID: 61051440702054968, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 61174320686380526, guid: 5a341f92755060145b1ccbce0f0e518d,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a341f92755060145b1ccbce0f0e518d, type: 2}

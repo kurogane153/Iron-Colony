@@ -45,6 +45,8 @@ public class NorthMagPoleScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
             playerController.SetMovableMagStickFlg(collision);
+        } else if (collision.gameObject.tag == "Magnet" && !playerController.GetIsRotating() && collision.gameObject.GetComponent<MagnetController>().isPoleEnter && collision.gameObject.GetComponent<MagnetController>().IsMagPole_S()) {
+            StickPerticleEnable();
         }
        
 

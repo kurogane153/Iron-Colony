@@ -223,6 +223,7 @@ public class PlayerController : MonoBehaviour
         if (isMovableMagStick) {
             OnRotateOffMagStick();
         }
+        SoundManager.Instance.PlaySeByName("punch-swing1");
     }
 
     // 動く磁石をくっつかせたときの処理

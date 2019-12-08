@@ -50,7 +50,8 @@ public class SouthMagPoleScript : MonoBehaviour {
             playerController.SetMovableMagStickFlg(collision);
         } else if (collision.gameObject.tag == "Magnet" && !playerController.GetIsRotating() && collision.gameObject.GetComponent<MagnetController>().isPoleEnter && collision.gameObject.GetComponent<MagnetController>().IsMagPole_N()) {
             StickPerticleEnable();
-            SoundManager.Instance.PlaySeByName("kati_1");
+            SoundManager.Instance.PlaySeByName("bottle1");
+            SoundManager.Instance.PlaySeByName("kachi2");
         }
     }
 

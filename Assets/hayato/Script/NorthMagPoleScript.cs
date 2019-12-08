@@ -47,7 +47,9 @@ public class NorthMagPoleScript : MonoBehaviour {
             playerController.SetMovableMagStickFlg(collision);
         } else if (collision.gameObject.tag == "Magnet" && !playerController.GetIsRotating() && collision.gameObject.GetComponent<MagnetController>().isPoleEnter && collision.gameObject.GetComponent<MagnetController>().IsMagPole_S()) {
             StickPerticleEnable();
-            SoundManager.Instance.PlaySeByName("bottle1");
+            SoundManager.Instance.PlaySeByName("kachi2");
+            //SoundManager.Instance.PlaySeByName("bottle1");
+            
         }
        
 

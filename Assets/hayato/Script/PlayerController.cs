@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
-        Vector2 groundedStart = eye.transform.position - eye.transform.up * 0.38f - eye.transform.right * 0.38f;
-        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f + eye.transform.right * 0.38f;
+        Vector2 groundedStart = eye.transform.position - eye.transform.up * 0.34f - eye.transform.right * 0.3f;
+        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.34f + eye.transform.right * 0.3f;
 
         isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
         Debug.DrawLine(groundedStart, groundedEnd, Color.red);

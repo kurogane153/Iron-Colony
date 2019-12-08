@@ -160,16 +160,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Magnetに触れたときにも、地面に触れた、ということにして
-    // ジャンプできるようにしている。
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Magnet") {
-            isGrounded = true;
-        }
-        
-    }
-
     // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！
     // そいつのPointEffector2Dコンポーネントと磁石用スクリプトを取得
     // effector2dを無効化させて、再び有効にするためのカウンターをセット
@@ -179,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             
-            if (isJumpingCheck && inputManager.JumpKey != 0) {
+            if (isJumpingCheck && inputManager.JumpKey != 0 && isWallStick) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
                 magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
@@ -195,6 +185,7 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
                 isWallStick = false;
+                SoundManager.Instance.PlaySeByName("Jump_2");
             }
         }
     }

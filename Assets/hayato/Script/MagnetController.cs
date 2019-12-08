@@ -202,7 +202,7 @@ public class MagnetController : MonoBehaviour {
                 if (!playerController.GetIsRotating() && !isPoleEnter)
                 {
                     Instantiate(RepulsionParticle, magTransForm, magRotation);
-
+                    SoundManager.Instance.PlaySeByName("light_saber1");
                 }
                 // S極のほうが近かったら吸引モード
             } else {
@@ -210,8 +210,6 @@ public class MagnetController : MonoBehaviour {
                 playerController.Change_Effectively_N_Pole();
                 playerController.isWallStick = true;
                 Change_MyImage_Stick();
-                
-                
             }
 
         } else if (Pole == MagPole.S_mag) {
@@ -230,7 +228,7 @@ public class MagnetController : MonoBehaviour {
                 if (!playerController.GetIsRotating() && !isPoleEnter)
                 {
                     Instantiate(RepulsionParticle, magTransForm, magRotation);
-
+                    SoundManager.Instance.PlaySeByName("light_saber1");
                 }
             }
         }

@@ -160,6 +160,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Magnet") {
+            isWallStick = true;
+        }
+    }
+
     // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！
     // そいつのPointEffector2Dコンポーネントと磁石用スクリプトを取得
     // effector2dを無効化させて、再び有効にするためのカウンターをセット
@@ -216,6 +223,7 @@ public class PlayerController : MonoBehaviour
         if (isMovableMagStick) {
             OnRotateOffMagStick();
         }
+        SoundManager.Instance.PlaySeByName("punch-swing1");
     }
 
     // 動く磁石をくっつかせたときの処理

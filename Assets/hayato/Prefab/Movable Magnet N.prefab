@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConstraintEnableCounter: 1
+  StickImage: {fileID: 21300000, guid: 69e69562de466a343be0bcffa0ff4471, type: 3}
 --- !u!212 &212354800916455500
 SpriteRenderer:
   m_ObjectHideFlags: 1

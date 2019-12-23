@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public int angleNumber;
 
     public bool isWallStick = false;
+    private bool isMagJamp = false;
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
@@ -164,6 +165,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isWallStick = true;
+            isMagJamp = false;
         }
     }
 
@@ -176,7 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             
-            if (isJumpingCheck && inputManager.JumpKey != 0 && isWallStick) {
+            if (isJumpingCheck && inputManager.JumpKey == 1 && isWallStick && !isMagJamp) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
                 magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
@@ -193,6 +195,15 @@ public class PlayerController : MonoBehaviour
                 _jumpPower = playerManager.JumpPower;
                 isWallStick = false;
                 SoundManager.Instance.PlaySeByName("Jump_2");
+                isMagJamp = true;
+            } else if (isJumpingCheck && inputManager.JumpKey == 1 && !isMagJamp) {
+                SoundManager.Instance.PlaySeByName("Jump_2");
+                jumpTimeCounter = playerManager.JumpTime;
+                isJumpingCheck = false;
+                isJumping = true;
+                _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
+                isMagJamp = true;
             }
         }
     }
@@ -201,6 +212,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isWallStick = false;
+            isMagJamp = false;
         }
     }
 
@@ -267,6 +279,16 @@ public class PlayerController : MonoBehaviour
     public void Change_Normal_Sprite()
     {
         Renderer.sprite = NormalSprite;
+    }
+
+    public void MovableMagSetPalent(Collision2D collision)
+    {
+        transform.SetParent(collision.transform);
+    }
+
+    private void RemovePalent()
+    {
+        transform.SetParent(null);
     }
 
 }

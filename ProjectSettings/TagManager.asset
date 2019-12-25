@@ -12,6 +12,11 @@ TagManager:
   - Movable Magnet S
   - Movable Magnet N
   - FxTemporaire
+  - StarDust
+  - PowerDust
+  - IronPlanet
+  - LastBoss
+  - CannonChargeUnit
   layers:
   - Default
   - TransparentFX

@@ -10,18 +10,24 @@ public class IronPlanetScript : MonoBehaviour {
     private float rotateTimer = 0;
     public int angleNumber;
 
+    private float teslaChargeTime;  // テスラキャノンチャージ時間
+    private int powerDustGetCount;  // パワーダストを取った回数
+    private float playerHP;         // プレイヤーHP 
+    [SerializeField] private float HPDamage = 20f;  //  HPダメージ量
+    [SerializeField] private float teslaMaxCharge = 5f;   // テスラキャノン最大チャージ（何秒チャージしたら撃てるかの定数）
+    [SerializeField] private float _playerStartHP = 100;  // プレイヤー初期HP
+
     InputManager inputManager;
     PlayerManager playerManager;
     Rigidbody2D rb;
 
-    // Use this for initialization
     void Start () {
         inputManager = InputManager.Instance;
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody2D>();
+        playerHP = _playerStartHP;
     }
 	
-	// Update is called once per frame
 	void Update () {
         if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
             if (inputManager.RotateLeftKey) {
@@ -66,5 +72,37 @@ public class IronPlanetScript : MonoBehaviour {
         }
         
         SoundManager.Instance.PlaySeByName("punch-swing1");
+    }
+
+    // ダメージを受ける
+    private void Damage()
+    {
+        playerHP -= HPDamage;
+    }
+
+    // パワーダストを取ったとき、テスラキャノンのチャージ上限を解放する。最大で2まで増える。
+    private void PowerCharge()
+    {
+        if(powerDustGetCount < 3) {
+            powerDustGetCount++;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "StarDust") {
+            Damage();
+        } else if (collision.gameObject.tag == "PowerDust") {
+            Damage();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "StarDust") {
+            Damage();
+        } else if (collision.tag == "PowerDust") {
+            PowerCharge();
+        }
     }
 }

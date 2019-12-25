@@ -113,6 +113,60 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &240312054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 240312055}
+  - component: {fileID: 240312056}
+  m_Layer: 2
+  m_Name: Cannon_Charge_Unit
+  m_TagString: CannonChargeUnit
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &240312055
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 240312054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.388, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 664076224}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &240312056
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 240312054}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.35, y: 1.6}
+  m_EdgeRadius: 0
 --- !u!1 &398805643
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,9 +259,10 @@ GameObject:
   - component: {fileID: 664076226}
   - component: {fileID: 664076225}
   - component: {fileID: 664076227}
-  m_Layer: 0
+  - component: {fileID: 664076228}
+  m_Layer: 11
   m_Name: IronPlanet
-  m_TagString: Untagged
+  m_TagString: IronPlanet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,12 +274,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664076223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.96, y: 0, z: -0.037109375}
+  m_LocalPosition: {x: -5.96, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1251047166}
   - {fileID: 2045160406}
   - {fileID: 1268347417}
+  - {fileID: 240312055}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -246,7 +302,7 @@ MonoBehaviour:
   jumpTime: 0.35
   jumpPowerAttenuation: 0.1
   gravityRate: 0
-  rotationSecond: 0.35
+  rotationSecond: 0.7
   childReEnableCounter: 0.5
 --- !u!114 &664076226
 MonoBehaviour:
@@ -261,6 +317,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateAngle: 0
   angleNumber: 0
+  HPDamage: 20
+  teslaMaxCharge: 0
+  _playerStartHP: 0
 --- !u!50 &664076227
 Rigidbody2D:
   serializedVersion: 4
@@ -272,7 +331,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -281,6 +340,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &664076228
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664076223}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.025, y: -0.012}
+  m_Size: {x: 3.34, y: 3.62}
+  m_Direction: 0
 --- !u!1001 &873294354
 Prefab:
   m_ObjectHideFlags: 0
@@ -406,7 +480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251047166}
   - component: {fileID: 1251047165}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tesla_Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1268347417}
   - component: {fileID: 1268347416}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: IronPlanet_bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +636,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4805255715422146, guid: f2947c46ac0b4a5449da9844f5d573c0, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4805255715422146, guid: f2947c46ac0b4a5449da9844f5d573c0, type: 2}
       propertyPath: m_LocalRotation.x
@@ -583,6 +657,11 @@ Prefab:
     - target: {fileID: 4805255715422146, guid: f2947c46ac0b4a5449da9844f5d573c0, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114684720409484480, guid: f2947c46ac0b4a5449da9844f5d573c0,
+        type: 2}
+      propertyPath: dontDestroyOnLoad
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f2947c46ac0b4a5449da9844f5d573c0, type: 2}
@@ -650,6 +729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785740755}
   - component: {fileID: 1785740754}
+  - component: {fileID: 1785740756}
   m_Layer: 0
   m_Name: LastBoss
   m_TagString: Untagged
@@ -715,6 +795,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1785740756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1785740753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254e6cc8536793c489d4cc443da3f0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StarDust: {fileID: 1805341093277116, guid: 7eda03fdf8748e945adb4126435745d7, type: 2}
+  PowerDust: {fileID: 1834310239642624, guid: 86162b8338397744baa7c80591edd1d6, type: 2}
+  _dustThrowRate_Normal: 3
+  _dustThrowRate_Crazy: 5
+  _powerDustThrowTime_Normal: 3
+  _powerDustThrowTime_Crazy: 5
 --- !u!1001 &1833690018
 Prefab:
   m_ObjectHideFlags: 0
@@ -778,7 +875,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045160406}
   - component: {fileID: 2045160405}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: IronPlanet_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}

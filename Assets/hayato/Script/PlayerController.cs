@@ -67,9 +67,15 @@ public class PlayerController : MonoBehaviour
         if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
             if (inputManager.RotateLeftKey) {
                 RotatingNow(90);
-                
+                if (3 < ++angleNumber) {
+                    angleNumber = 0;
+                }
+
             } else if (inputManager.RotateRightKey) {
                 RotatingNow(-90);
+                if (0 > --angleNumber) {
+                    angleNumber = 3;
+                }
             }
         } else {        // 回転中の処理。回転できるようになるまでの時間を減らしてる
             rotateTimer -= Time.deltaTime;
@@ -230,9 +236,7 @@ public class PlayerController : MonoBehaviour
         isRotating = true;
         rotateTimer = playerManager.RotationSecond;
         iTween.RotateTo(gameObject, iTween.Hash("z", rotateAngle, "time", playerManager.RotationSecond));
-        if (3 < ++angleNumber) {
-            angleNumber = 0;
-        }
+        
         if (isMovableMagStick) {
             OnRotateOffMagStick();
         }

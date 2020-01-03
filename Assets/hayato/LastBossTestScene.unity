@@ -318,8 +318,8 @@ MonoBehaviour:
   rotateAngle: 0
   angleNumber: 0
   HPDamage: 20
-  teslaMaxCharge: 0
-  _playerStartHP: 0
+  teslaMaxCharge: 5
+  _playerStartHP: 100
 --- !u!50 &664076227
 Rigidbody2D:
   serializedVersion: 4
@@ -808,8 +808,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StarDust: {fileID: 1805341093277116, guid: 7eda03fdf8748e945adb4126435745d7, type: 2}
   PowerDust: {fileID: 1834310239642624, guid: 86162b8338397744baa7c80591edd1d6, type: 2}
-  _dustThrowRate_Normal: 3
-  _dustThrowRate_Crazy: 5
+  _bossStartHP: 300
+  _dustThrowRate_Normal: 4.5
+  _dustThrowRate_Crazy: 2.8
   _powerDustThrowTime_Normal: 3
   _powerDustThrowTime_Crazy: 5
 --- !u!1001 &1833690018

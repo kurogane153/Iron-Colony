@@ -317,9 +317,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateAngle: 0
   angleNumber: 0
-  HPDamage: 20
-  teslaMaxCharge: 5
+  _HPDamage: 20
+  _teslaMaxCharge: 5
   _playerStartHP: 100
+  _teslaChargeEffect: {fileID: 1717232894662582, guid: 0a6856b2c04015c40aabf5a5b6707c0e,
+    type: 2}
+  _chargeEffectoffset: {x: 2.2, y: -1.81, z: 0}
 --- !u!50 &664076227
 Rigidbody2D:
   serializedVersion: 4
@@ -411,7 +414,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!212 &1145026919
 SpriteRenderer:
@@ -447,7 +450,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 23c24dfc384c23e4abffcdb522588e18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -675,11 +678,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4549312282426242, guid: edd0f5d96eae8534fadd7c8af0cd8519, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -6.12
+      value: -5.18
       objectReference: {fileID: 0}
     - target: {fileID: 4549312282426242, guid: edd0f5d96eae8534fadd7c8af0cd8519, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.77426
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 4549312282426242, guid: edd0f5d96eae8534fadd7c8af0cd8519, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1010,7 +1013,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1412319776598744, guid: b38d2c53755a87641a57be44ffcb203c, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b38d2c53755a87641a57be44ffcb203c, type: 2}

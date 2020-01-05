@@ -15,9 +15,14 @@ public class IronPlanetScript : MonoBehaviour {
     private float teslaCapacity;    // テスラキャノンのチャージ容量（可変）
     private int powerDustGetCount;  // パワーダストを取った回数
     private float playerHP;         // プレイヤーHP 
-    [SerializeField] private float HPDamage = 20f;  //  HPダメージ量
-    [SerializeField] private float teslaMaxCharge = 5f;   // テスラキャノン最大チャージ（何秒チャージしたら撃てるかの定数）
+    [SerializeField] private float _HPDamage = 20f;  //  HPダメージ量
+    [SerializeField] private float _teslaMaxCharge = 5f;   // テスラキャノン最大チャージ（何秒チャージしたら撃てるかの定数）
     [SerializeField] private float _playerStartHP = 100;  // プレイヤー初期HP
+
+    [SerializeField] private GameObject _teslaChargeEffect; // テスラキャノンをチャージ中に出てくるエフェクト
+    [SerializeField] private Vector3 _chargeEffectoffset;
+    private Vector3 teslaCannonPosition;  // テスラキャノンの座標
+    private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
 
     InputManager inputManager;
     PlayerManager playerManager;
@@ -29,6 +34,7 @@ public class IronPlanetScript : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         playerHP = _playerStartHP;
         teslaCapacity = 33f;
+        
     }
 	
 	void Update () {
@@ -48,13 +54,24 @@ public class IronPlanetScript : MonoBehaviour {
         }
 
         if(inputManager.JumpKey == 2) {
+            if(instantEffect == null) {
+                teslaCannonPosition = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
+                instantEffect = GameObject.Instantiate(_teslaChargeEffect, teslaCannonPosition, Quaternion.identity) as GameObject;
+            } else {
+                instantEffect.transform.position = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
+            }
             if(teslaChargeTime <= teslaCapacity) {
-                teslaChargeTime += 100 / teslaMaxCharge * Time.deltaTime;
+                teslaChargeTime += 100 / _teslaMaxCharge * Time.deltaTime;
                 if(teslaCapacity < teslaChargeTime) {
                     teslaChargeTime = teslaCapacity;
                 }
             }
             Debug.Log("テスラキャノン量      " + teslaChargeTime);
+        } else if (inputManager.JumpKey == 0) {
+            if (instantEffect != null) {
+                Destroy(instantEffect);
+            }
+            
         }
     }
 
@@ -90,7 +107,7 @@ public class IronPlanetScript : MonoBehaviour {
     // ダメージを受ける
     private void Damage()
     {
-        playerHP -= HPDamage;
+        playerHP -= _HPDamage;
         Debug.Log("現在のHP " + playerHP + " / " + _playerStartHP);
         if(playerHP <= 0) {
             // 現在のScene名を取得する

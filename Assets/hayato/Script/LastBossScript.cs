@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LastBossScript : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class LastBossScript : MonoBehaviour {
     private int dustThrowCount;
     private bool isCrazyMode;
     private float dustThrowTimer;
+
+    public Slider slider;
 
     [SerializeField] private GameObject StarDust;
     [SerializeField] private GameObject PowerDust;
@@ -22,7 +25,8 @@ public class LastBossScript : MonoBehaviour {
 
     void Start () {
         bossHp = _bossStartHP;
-	}
+        slider.value = 1;
+    }
 	
 	void Update () {
         dustThrowTimer += Time.deltaTime;
@@ -40,7 +44,6 @@ public class LastBossScript : MonoBehaviour {
                 Instantiate(InstantDust());
                 dustThrowTimer = 0;
             }
-            HPCheck();
         }
         
 	}
@@ -59,7 +62,6 @@ public class LastBossScript : MonoBehaviour {
         } else {
             if(dustThrowCount == _powerDustThrowTime_Normal) {
                 Debug.Log("通常モードのラスボスがパワーダストを投げた！");
-                bossHp -= 200f;
                 dustThrowCount = 0;
                 return PowerDust;
             } else {
@@ -69,11 +71,22 @@ public class LastBossScript : MonoBehaviour {
         }
     }
 
-    private void HPCheck()
+    private IEnumerator HPCheck()
     {
-        if(bossHp <= _bossStartHP / 3) {
+        if(bossHp <= _bossStartHP / 3 && !isCrazyMode) {
+            //ボスHPが最大値の3割かつ発狂モードでないとき
+            yield return new WaitForSeconds(3.5f);
             isCrazyMode = true;
+            GetComponent<SpriteRenderer>().color = new Color(1, 0.1f, 0.1f);
             Debug.Log("ラスボスは発狂モードになった！！");
         }
+    }
+
+    public void BossHPDamage(float damage)
+    {
+        bossHp -= damage;
+        slider.value = bossHp / _bossStartHP;
+        //コルーチンを使って、時間差で発狂モードになる。
+        StartCoroutine("HPCheck");
     }
 }

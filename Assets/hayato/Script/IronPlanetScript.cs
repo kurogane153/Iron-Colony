@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class IronPlanetScript : MonoBehaviour {
 
@@ -11,6 +12,9 @@ public class IronPlanetScript : MonoBehaviour {
     private float rotateTimer = 0;
     public int angleNumber;
 
+    private bool isTeslaShotNG;    // テスラキャノンを撃ってもいいかのフラグ
+    private bool isMoveOK;          // プレイヤーが動いてもOKかのフラグ
+    private bool isMaxShot;         // 最大チャージで撃ったか
     private float teslaChargeTime;  // テスラキャノンチャージ時間
     private float teslaCapacity;    // テスラキャノンのチャージ容量（可変）
     private int powerDustGetCount;  // パワーダストを取った回数
@@ -20,10 +24,26 @@ public class IronPlanetScript : MonoBehaviour {
     [SerializeField] private float _playerStartHP = 100;  // プレイヤー初期HP
 
     [SerializeField] private GameObject _teslaChargeEffect; // テスラキャノンをチャージ中に出てくるエフェクト
+    [SerializeField] private GameObject _teslaShotEffect; // テスラキャノンショット時に出てくるエフェクト
+    [SerializeField] private GameObject _teslaHitEffect; // テスラキャノンが敵に当たったときに出てくるエフェクト
     [SerializeField] private Vector3 _chargeEffectoffset;
+    [SerializeField] private Vector3 _shotEffectoffset;
     private Vector3 teslaCannonPosition;  // テスラキャノンの座標
     private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
+    private GameObject instantTeslaShotEffect;  // Instantiateされたテスラキャノンショットエフェクト
 
+    public Slider HPslider;
+    public Image HPsliderFill;
+    public Slider TeslaMaxChargeSlider;
+    public Slider TeslaSlider;
+    public Image TeslaSliderFill;
+    [SerializeField] private Color _fineColor;
+    [SerializeField] private Color _coutionColor;
+    [SerializeField] private Color _dangerColor;
+    [SerializeField] private Color _teslaMaxChargeColor;
+    private Color teslaNormalColor;
+
+    LastBossScript lastBossScript;
     InputManager inputManager;
     PlayerManager playerManager;
     Rigidbody2D rb;
@@ -32,19 +52,36 @@ public class IronPlanetScript : MonoBehaviour {
         inputManager = InputManager.Instance;
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody2D>();
+        lastBossScript = GameObject.Find("LastBoss").GetComponent<LastBossScript>();
+
         playerHP = _playerStartHP;
         teslaCapacity = 33f;
-        
+
+        HPslider.value = 1;
+        HPsliderFill.color = _fineColor;
+        TeslaSlider.value = 0;
+        TeslaMaxChargeSlider.value = teslaCapacity / 100;
+        teslaNormalColor = TeslaSliderFill.color;
     }
 	
 	void Update () {
-        if (!isRotating && inputManager.JumpKey == 0) {      // 回転していないときは、キー入力を受け取る。
+        if (!isRotating && inputManager.JumpKey == 0 && isMoveOK) {
+            // 回転していない＆テスラキャノンチャージしていない＆テスラキャノン最大ショット後の硬直でないときに回転できる
             if (inputManager.RotateLeftKey) {
                 RotatingNow(180);
+                if (instantTeslaShotEffect != null) {
+                    // ショットエフェクトがあったら削除しておく。
+                    Destroy(instantTeslaShotEffect);
+                }
 
             } else if (inputManager.RotateRightKey) {
                 RotatingNow(-180);
+                if (instantTeslaShotEffect != null) {
+                    // ショットエフェクトがあったら削除しておく。
+                    Destroy(instantTeslaShotEffect);
+                }
             }
+            
         } else {        // 回転中の処理。回転できるようになるまでの時間を減らしてる
             rotateTimer -= Time.deltaTime;
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotateAngle), step);
@@ -53,31 +90,103 @@ public class IronPlanetScript : MonoBehaviour {
             }
         }
 
-        if(inputManager.JumpKey == 2) {
-            if(instantEffect == null) {
-                teslaCannonPosition = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
-                instantEffect = GameObject.Instantiate(_teslaChargeEffect, teslaCannonPosition, Quaternion.identity) as GameObject;
-            } else {
-                instantEffect.transform.position = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
-            }
-            if(teslaChargeTime <= teslaCapacity) {
-                teslaChargeTime += 100 / _teslaMaxCharge * Time.deltaTime;
-                if(teslaCapacity < teslaChargeTime) {
-                    teslaChargeTime = teslaCapacity;
-                }
-            }
-            Debug.Log("テスラキャノン量      " + teslaChargeTime);
-        } else if (inputManager.JumpKey == 0) {
-            if (instantEffect != null) {
-                Destroy(instantEffect);
-            }
-            
-        }
+        
     }
 
     private void FixedUpdate()
     {
-        rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), playerManager.MoveForceMultiplier * (inputManager.UpMoveKey * playerManager.MoveSpeed - rb.velocity.y)));
+        if (isMoveOK) {
+            if(66f < teslaChargeTime) {
+                rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed / 4 - rb.velocity.x), playerManager.MoveForceMultiplier * (inputManager.UpMoveKey * playerManager.MoveSpeed / 4 - rb.velocity.y)));
+            } else {
+                rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), playerManager.MoveForceMultiplier * (inputManager.UpMoveKey * playerManager.MoveSpeed - rb.velocity.y)));
+            }
+        } else {
+            rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed / 10 - rb.velocity.x), playerManager.MoveForceMultiplier * (inputManager.UpMoveKey * playerManager.MoveSpeed / 10 - rb.velocity.y)));
+        }
+
+        if (inputManager.JumpKey == 2 && angleNumber == 0 && !isTeslaShotNG) {
+            // ジャンプボタン押し続け＆砲口を敵に向けている＆最大ショット後の硬直でない
+
+            if (instantEffect == null) {
+                //チャージエフェクトが生成されていないとき、エフェクトを生成する。
+                teslaCannonPosition = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
+                instantEffect = GameObject.Instantiate(_teslaChargeEffect, teslaCannonPosition, Quaternion.identity) as GameObject;
+            } else {
+                //エフェクトが生成されていたら、座標をプレイヤーに合わせる
+                instantEffect.transform.position = GameObject.Find("IronPlanet").transform.position + _chargeEffectoffset;
+            }
+
+            if (instantTeslaShotEffect != null) {
+                //ショットエフェクトがまだ残っていたら座標をプレイヤーに合わせる
+                instantTeslaShotEffect.transform.position = GameObject.Find("IronPlanet").transform.position + _shotEffectoffset;
+            }
+
+            if (teslaChargeTime <= teslaCapacity) {
+                //チャージ中！
+                teslaChargeTime += 100 / _teslaMaxCharge * Time.deltaTime;
+                if (teslaCapacity < teslaChargeTime) {
+                    //満タンになったらそれ以上たまらないようにする
+                    teslaChargeTime = teslaCapacity;
+                    TeslaSliderFill.color = _teslaMaxChargeColor;
+                }
+            }
+            TeslaSlider.value = teslaChargeTime / 100;
+            Debug.Log("テスラキャノン量      " + teslaChargeTime);
+
+        } else if (inputManager.JumpKey == 0 || isTeslaShotNG) {
+            // テスラキャノンチャージ中エフェクトがあったら削除して、ヒットエフェクトとショットエフェクト表示
+            if (instantEffect != null) {
+
+                if (teslaChargeTime >= teslaCapacity) {
+                    // チャージ量によって与えるダメージが変動する。
+                    switch (powerDustGetCount) {
+                        case 0:
+                            lastBossScript.BossHPDamage(teslaChargeTime / 4.5f);
+                            break;
+                        case 1:
+                            lastBossScript.BossHPDamage(teslaChargeTime / 2);
+                            break;
+                        case 2:
+                            lastBossScript.BossHPDamage(teslaChargeTime);
+                            break;
+                    }
+                    // テスラキャノンが最大チャージで放たれたときの処理（最大チャージ量は可変。)
+                    if (instantTeslaShotEffect != null) {
+                        // ショットエフェクトがあったら削除しておく。
+                        Destroy(instantTeslaShotEffect);
+                    }
+                    instantTeslaShotEffect = GameObject.Instantiate(_teslaShotEffect, teslaCannonPosition + _shotEffectoffset, Quaternion.identity) as GameObject;
+                    Destroy(instantTeslaShotEffect, 3f);
+                    Instantiate(_teslaHitEffect);
+                    isMoveOK = false;
+                    isMaxShot = true;
+                    // ここまで最大チャージで撃ったときの処理。
+                }
+
+                Destroy(instantEffect);
+                TeslaSliderFill.color = teslaNormalColor;
+                isTeslaShotNG = true;
+            }
+            // ショットエフェクトが生成されていたら座標をプレイヤーと合わせる。3秒後に削除
+            if (instantTeslaShotEffect != null) {
+                instantTeslaShotEffect.transform.position = GameObject.Find("IronPlanet").transform.position + _shotEffectoffset;
+            }
+            // テスラキャノンゲージ減る
+            if (0 < teslaChargeTime) {
+                teslaChargeTime -= 100 / _teslaMaxCharge * Time.deltaTime * (powerDustGetCount + 1 * 2.25f);
+                TeslaSlider.value = teslaChargeTime / 100;
+            } else {
+                isTeslaShotNG = false;
+                isMoveOK = true;
+                if (isMaxShot) {
+                    powerDustGetCount = 0;
+                    teslaCapacity = 33f;
+                    TeslaMaxChargeSlider.value = teslaCapacity / 100;
+                    isMaxShot = false;
+                }
+            }
+        }
     }
 
     // 回転ボタン押されたときの処理
@@ -109,7 +218,18 @@ public class IronPlanetScript : MonoBehaviour {
     {
         playerHP -= _HPDamage;
         Debug.Log("現在のHP " + playerHP + " / " + _playerStartHP);
-        if(playerHP <= 0) {
+
+        // HPバー関係
+        HPslider.value = playerHP / _playerStartHP;
+        if(playerHP <= _playerStartHP / 3.5) {
+            // HPが28%くらいでデンジャーカラー
+            HPsliderFill.color = _dangerColor;
+        } else if (playerHP <= _playerStartHP / 2) {
+            // HPが半分以下でコーションカラー
+            HPsliderFill.color = _coutionColor;
+        }
+
+        if (playerHP <= 0) {
             // 現在のScene名を取得する
             Scene loadScene = SceneManager.GetActiveScene();
             // Sceneの読み直し
@@ -130,6 +250,7 @@ public class IronPlanetScript : MonoBehaviour {
                     teslaCapacity = 100f;
                     break;
             }
+            TeslaMaxChargeSlider.value = teslaCapacity / 100;
         }
         Debug.Log("現在のチャージ上限 " + teslaCapacity);
     }

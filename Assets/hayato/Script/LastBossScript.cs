@@ -10,7 +10,8 @@ public class LastBossScript : MonoBehaviour {
     private bool isCrazyMode;
     private float dustThrowTimer;
 
-    public Slider slider;
+    [SerializeField] private Slider slider;
+    [SerializeField] private GameObject DustThrowPoint;
 
     [SerializeField] private GameObject StarDust;
     [SerializeField] private GameObject PowerDust;
@@ -34,14 +35,14 @@ public class LastBossScript : MonoBehaviour {
             if (_dustThrowRate_Crazy <= dustThrowTimer) {
                 ++dustThrowCount;
                 Debug.Log("ダスト投てき " + dustThrowCount + "回目");
-                Instantiate(InstantDust());
+                Instantiate(InstantDust(),DustThrowPoint.transform.position, Quaternion.identity);
                 dustThrowTimer = 0;
             }
         } else {
             if (_dustThrowRate_Normal <= dustThrowTimer) {
                 ++dustThrowCount;
                 Debug.Log("ダスト投てき " + dustThrowCount + "回目");
-                Instantiate(InstantDust());
+                Instantiate(InstantDust(), DustThrowPoint.transform.position, Quaternion.identity);
                 dustThrowTimer = 0;
             }
         }

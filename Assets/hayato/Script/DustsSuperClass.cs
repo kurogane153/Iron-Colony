@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class DustsSuperClass : MonoBehaviour {
 
-    public float _moveSpeed = -20f;
+    public float _moveSpeed = 6f;
 
     public Rigidbody2D rb;
 
+    private Vector3 player;
+
 	public void Start () {
         rb = GetComponent<Rigidbody2D>();
-	}
+        player = GameObject.Find("IronPlanet").transform.position;
+        rb.AddForce(player.normalized * _moveSpeed, ForceMode2D.Impulse);
+    }
 
     public void FixedUpdate()
     {
-        rb.AddForce(new Vector2(_moveSpeed, 0));
         if (!GetComponent<Renderer>().isVisible) {
             DestroySelf();
         }

@@ -54,7 +54,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -62,7 +62,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61550978312109858
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -99,10 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c02e3081124c93c4182be72c6f916cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 6
+  _moveSpeed: 5
   rb: {fileID: 0}
-  player: {x: 0, y: 0, z: 0}
-  myPos: {x: 0, y: 0, z: 0}
 --- !u!212 &212108278955296528
 SpriteRenderer:
   m_ObjectHideFlags: 1

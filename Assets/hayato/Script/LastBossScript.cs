@@ -30,23 +30,25 @@ public class LastBossScript : MonoBehaviour {
     }
 	
 	void Update () {
-        dustThrowTimer += Time.deltaTime;
-        if (isCrazyMode) {
-            if (_dustThrowRate_Crazy <= dustThrowTimer) {
-                ++dustThrowCount;
-                Debug.Log("ダスト投てき " + dustThrowCount + "回目");
-                Instantiate(InstantDust(),DustThrowPoint.transform.position, Quaternion.identity);
-                dustThrowTimer = 0;
-            }
-        } else {
-            if (_dustThrowRate_Normal <= dustThrowTimer) {
-                ++dustThrowCount;
-                Debug.Log("ダスト投てき " + dustThrowCount + "回目");
-                Instantiate(InstantDust(), DustThrowPoint.transform.position, Quaternion.identity);
-                dustThrowTimer = 0;
+        if(  0 < bossHp ) {
+            dustThrowTimer += Time.deltaTime;
+            if (isCrazyMode) {
+                if (_dustThrowRate_Crazy <= dustThrowTimer) {
+                    ++dustThrowCount;
+                    Debug.Log("ダスト投てき " + dustThrowCount + "回目");
+                    Instantiate(InstantDust(), DustThrowPoint.transform.position, Quaternion.identity);
+                    dustThrowTimer = 0;
+                }
+            } else {
+                if (_dustThrowRate_Normal <= dustThrowTimer) {
+                    ++dustThrowCount;
+                    Debug.Log("ダスト投てき " + dustThrowCount + "回目");
+                    Instantiate(InstantDust(), DustThrowPoint.transform.position, Quaternion.identity);
+                    dustThrowTimer = 0;
+                }
             }
         }
-        
+
 	}
 
     private GameObject InstantDust()
@@ -79,6 +81,8 @@ public class LastBossScript : MonoBehaviour {
             yield return new WaitForSeconds(3.5f);
             isCrazyMode = true;
             GetComponent<SpriteRenderer>().color = new Color(1, 0.1f, 0.1f);
+            SoundManager.Instance.StopBgm();
+            SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss04");
             Debug.Log("ラスボスは発狂モードになった！！");
         }
     }

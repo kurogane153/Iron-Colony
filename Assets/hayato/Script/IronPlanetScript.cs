@@ -64,8 +64,8 @@ public class IronPlanetScript : MonoBehaviour {
         TeslaSlider.value = 0;
         TeslaMaxChargeSlider.value = teslaCapacity / 100;
         teslaNormalColor = TeslaSliderFill.color;
-        powerDustGetCount = 2;
-        teslaCapacity = 100f;
+
+        SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
     }
 	
 	void Update () {

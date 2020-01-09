@@ -9,11 +9,16 @@ public class DustsSuperClass : MonoBehaviour {
     public Rigidbody2D rb;
 
     private Vector3 player;
+    private Vector3 myPos;
+    Vector2 target;
 
-	public void Start () {
+
+    public void Start () {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("IronPlanet").transform.position;
-        rb.AddForce(player.normalized * _moveSpeed, ForceMode2D.Impulse);
+        myPos = gameObject.transform.position;
+        target = player - myPos;
+        rb.velocity = target.normalized * _moveSpeed;
     }
 
     public void FixedUpdate()

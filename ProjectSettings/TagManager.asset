@@ -17,6 +17,8 @@ TagManager:
   - IronPlanet
   - LastBoss
   - CannonChargeUnit
+  - FlowerStand
+  - FlowerMaxGrowPoint
   layers:
   - Default
   - TransparentFX

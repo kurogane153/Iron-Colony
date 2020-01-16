@@ -19,6 +19,7 @@ TagManager:
   - CannonChargeUnit
   - FlowerStand
   - FlowerMaxGrowPoint
+  - KillZone
   layers:
   - Default
   - TransparentFX

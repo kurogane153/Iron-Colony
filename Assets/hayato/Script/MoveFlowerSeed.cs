@@ -9,11 +9,13 @@ public class MoveFlowerSeed : MonoBehaviour {
     private BoxCollider2D boxCollider;
     private Rigidbody2D rigidbody2;
     private MovableMagnetContoroller magnetContoroller;
+    private Vector3 startPosition;
 
 	void Start () {
         boxCollider = GetComponent<BoxCollider2D>();
         rigidbody2 = GetComponent<Rigidbody2D>();
         magnetContoroller = GetComponent<MovableMagnetContoroller>();
+        startPosition = transform.position;
 	}
 	
 	void Update () {
@@ -29,6 +31,11 @@ public class MoveFlowerSeed : MonoBehaviour {
             gameObject.layer = LayerMask.NameToLayer("Default");
             rigidbody2.bodyType = RigidbodyType2D.Static;
             magnetContoroller.enabled = false;
+        } else if(collision.tag == "KillZone") {
+            transform.position = startPosition;
+            rigidbody2.velocity = Vector2.zero;
         }
+
+        
     }
 }

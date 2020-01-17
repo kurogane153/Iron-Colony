@@ -12,7 +12,7 @@ public class GrowFlower : MonoBehaviour {
 	
 	void Update () {
 		if(!isTouchMaxGrowPoint) {
-            transform.Translate(0, 0.01f, 0);
+            transform.Translate(0, 0.03f, 0);
         }
 	}
 
@@ -20,7 +20,6 @@ public class GrowFlower : MonoBehaviour {
     {
         if(!isTouchMaxGrowPoint && collision.tag == "FlowerMaxGrowPoint") {
             isTouchMaxGrowPoint = true;
-            Debug.Log("ぐれた");
         }
     }
 }

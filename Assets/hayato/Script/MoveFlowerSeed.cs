@@ -6,6 +6,7 @@ public class MoveFlowerSeed : MonoBehaviour {
 
     private bool isSetFlowerStand;
     [SerializeField] private GameObject _flowerInstance;
+    [SerializeField] private GameObject _collisionFlower;
     private BoxCollider2D boxCollider;
     private Rigidbody2D rigidbody2;
     private MovableMagnetContoroller magnetContoroller;
@@ -25,7 +26,8 @@ public class MoveFlowerSeed : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "FlowerStand" && !isSetFlowerStand) {
-            Instantiate(_flowerInstance, transform.position - new Vector3(0, 1.3f, 0), Quaternion.identity);
+            Instantiate(_flowerInstance, transform.position - new Vector3(0, 0.3f, 0), Quaternion.identity);
+            Instantiate(_collisionFlower, transform.position + new Vector3(0, 1.9f, 0), Quaternion.identity);
             isSetFlowerStand = true;
             gameObject.tag = "Ground";
             gameObject.layer = LayerMask.NameToLayer("Default");

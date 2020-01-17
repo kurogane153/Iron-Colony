@@ -102,6 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _flowerInstance: {fileID: 1044578892397978, guid: a85f2df8a0641bc41b0605fe4bc7e1bd,
     type: 2}
+  _collisionFlower: {fileID: 1333034102182462, guid: 3970a352b8eba8d40bd839cce0a349dc,
+    type: 2}
 --- !u!114 &114415251665048938
 MonoBehaviour:
   m_ObjectHideFlags: 1

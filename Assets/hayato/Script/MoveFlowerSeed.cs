@@ -19,20 +19,17 @@ public class MoveFlowerSeed : MonoBehaviour {
         startPosition = transform.position;
 	}
 	
-	void Update () {
-		
-	}
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "FlowerStand" && !isSetFlowerStand) {
-            Instantiate(_flowerInstance, transform.position - new Vector3(0, 0.3f, 0), Quaternion.identity);
+            Instantiate(_flowerInstance, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
             Instantiate(_collisionFlower, transform.position + new Vector3(0, 1.9f, 0), Quaternion.identity);
             isSetFlowerStand = true;
             gameObject.tag = "Ground";
             gameObject.layer = LayerMask.NameToLayer("Default");
             rigidbody2.bodyType = RigidbodyType2D.Static;
             magnetContoroller.enabled = false;
+            Destroy(gameObject);
         } else if(collision.tag == "KillZone") {
             transform.position = startPosition;
             rigidbody2.velocity = Vector2.zero;

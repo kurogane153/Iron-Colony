@@ -22,6 +22,8 @@ TagManager:
   - KillZone
   - FlowreStand
   - CollapseWallStopTrigger
+  - RailObject
+  - Rail
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ public class GrowFlower : MonoBehaviour {
 	
 	void Update () {
 		if(!isTouchMaxGrowPoint) {
-            transform.Translate(0, 0.03f, 0);
+            transform.Translate(0, 0.02f, 0);
         }
 	}
 

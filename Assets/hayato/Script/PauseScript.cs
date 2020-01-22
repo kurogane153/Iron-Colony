@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class PauseScript : MonoBehaviour
 {
@@ -18,10 +19,20 @@ public class PauseScript : MonoBehaviour
             //　ポーズUIが表示されてる時は停止
             if (pauseUI.activeSelf) {
                 Time.timeScale = 0f;
+                SoundManager.Instance.PauseBGM();
                 //　ポーズUIが表示されてなければ通常通り進行
             } else {
                 Time.timeScale = 1f;
+                SoundManager.Instance.UnPauseBGM();
             }
         }
     }
+
+    public void Resume()
+    {
+        pauseUI.SetActive(!pauseUI.activeSelf);
+        Time.timeScale = 1f;
+        SoundManager.Instance.UnPauseBGM();
+    }
+
 }

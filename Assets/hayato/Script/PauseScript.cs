@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseScript : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class PauseScript : MonoBehaviour
 
     public void Resume()
     {
-        pauseUI.SetActive(!pauseUI.activeSelf);
+        pauseUI.SetActive(false);
         Time.timeScale = 1f;
         SoundManager.Instance.UnPauseBGM();
     }
@@ -47,10 +48,28 @@ public class PauseScript : MonoBehaviour
     public void Restart()
     {
         pauseUI.SetActive(false);
-        restartCheckPanel.SetActive(true);
+        restartCheckPanel.SetActive(false);
+        Time.timeScale = 1f;
+        // Sceneの読み直し
+        FadeManager.Instance.LoadScene(SceneManager.GetActiveScene().name, 2.5f);
     }
 
     public void GotoTitle()
+    {
+        pauseUI.SetActive(false);
+        gotoTitleCheckPanel.SetActive(false);
+        Time.timeScale = 1f;
+        // Title画面へ
+        FadeManager.Instance.LoadScene("TitleScene", 2.5f);
+    }
+
+    public void Open_Restart()
+    {
+        pauseUI.SetActive(false);
+        restartCheckPanel.SetActive(true);
+    }
+
+    public void Open_GotoTitle()
     {
         pauseUI.SetActive(false);
         gotoTitleCheckPanel.SetActive(true);

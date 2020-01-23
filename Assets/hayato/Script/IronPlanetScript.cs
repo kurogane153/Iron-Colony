@@ -255,7 +255,7 @@ public class IronPlanetScript : MonoBehaviour {
             // 現在のScene名を取得する
             Scene loadScene = SceneManager.GetActiveScene();
             // Sceneの読み直し
-            SceneManager.LoadScene(loadScene.name);
+            FadeManager.Instance.LoadScene("LastBossTestScene", 1f);
         }
     }
 

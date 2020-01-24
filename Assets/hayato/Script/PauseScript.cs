@@ -14,7 +14,19 @@ public class PauseScript : MonoBehaviour
     private GameObject restartCheckPanel;
 
     [SerializeField]
+    private GameObject optionPanel;
+
+    [SerializeField]
     private GameObject gotoTitleCheckPanel;
+
+    [SerializeField]
+    private UnityEngine.UI.Slider masterSlider;
+
+    [SerializeField]
+    private UnityEngine.UI.Slider BGMSlider;
+
+    [SerializeField]
+    private UnityEngine.UI.Slider SESlider;
 
     // Update is called once per frame
     void Update()
@@ -33,7 +45,7 @@ public class PauseScript : MonoBehaviour
             } else {
                 pauseUI.SetActive(true);
                 Time.timeScale = 0f;
-                SoundManager.Instance.PauseBGM();
+                //SoundManager.Instance.PauseBGM();
             }
         }
     }
@@ -75,6 +87,15 @@ public class PauseScript : MonoBehaviour
         gotoTitleCheckPanel.SetActive(true);
     }
 
+    public void Open_Option()
+    {
+        pauseUI.SetActive(false);
+        optionPanel.SetActive(true);
+        masterSlider.value = SoundManager.Instance.Volume;
+        BGMSlider.value = SoundManager.Instance.BgmVolume;
+        SESlider.value = SoundManager.Instance.SeVolume;
+    }
+
     public void Back_fromRestart()
     {
         pauseUI.SetActive(true);
@@ -85,5 +106,29 @@ public class PauseScript : MonoBehaviour
     {
         pauseUI.SetActive(true);
         gotoTitleCheckPanel.SetActive(false);
+    }
+
+    public void Back_fromOption()
+    {
+        pauseUI.SetActive(true);
+        optionPanel.SetActive(false);
+        PlayerPrefs.SetFloat("MasterVolume", SoundManager.Instance.Volume);
+        PlayerPrefs.SetFloat("BGMVolume", SoundManager.Instance.BgmVolume);
+        PlayerPrefs.SetFloat("SEVolume", SoundManager.Instance.SeVolume);
+    }
+
+    public void ChangeMasterVolume(UnityEngine.UI.Slider slider)
+    {
+        SoundManager.Instance.Volume = slider.value;
+    }
+
+    public void ChangeBGMVolume(UnityEngine.UI.Slider slider)
+    {
+        SoundManager.Instance.BgmVolume = slider.value;
+    }
+
+    public void ChangeSEVolume(UnityEngine.UI.Slider slider)
+    {
+        SoundManager.Instance.SeVolume = slider.value;
     }
 }

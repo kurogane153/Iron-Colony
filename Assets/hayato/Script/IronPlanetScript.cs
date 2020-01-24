@@ -25,13 +25,12 @@ public class IronPlanetScript : MonoBehaviour {
 
     [SerializeField] private GameObject _teslaChargeEffect; // テスラキャノンをチャージ中に出てくるエフェクト
     [SerializeField] private GameObject _teslaShotEffect; // テスラキャノンショット時に出てくるエフェクト
-    [SerializeField] private GameObject _teslaHitEffect; // テスラキャノンが敵に当たったときに出てくるエフェクト
     [SerializeField] private Vector3 _chargeEffectoffset;
     [SerializeField] private Vector3 _shotEffectoffset;
+    [SerializeField] private GameObject _teslaEnergySoul;   // テスラキャノン発射時に生成される弾オブジェクト
     private Vector3 teslaCannonPosition;  // テスラキャノンの座標
     private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
     private GameObject instantTeslaShotEffect;  // Instantiateされたテスラキャノンショットエフェクト
-    private GameObject instantTeslaHitEffect;   // Instantiateされたテスラキャノン着弾エフェクト
 
     public Slider HPslider;
     public Image HPsliderFill;
@@ -154,22 +153,18 @@ public class IronPlanetScript : MonoBehaviour {
 
                 SoundManager.Instance.StopSe();
                 if (teslaChargeTime >= teslaCapacity) {
+                    SoundManager.Instance.PlaySeByName("beamgun1");
+                    GameObject instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                     // チャージ量によって与えるダメージが変動する。
                     switch (powerDustGetCount) {
                         case 0:
-                            lastBossScript.BossHPDamage(teslaChargeTime / 4.5f);
-                            instantTeslaHitEffect = GameObject.Instantiate(_teslaHitEffect) as GameObject;
-                            Destroy(instantTeslaHitEffect, 3.5f);
-                            SoundManager.Instance.PlaySeByName("beamgun1");
+                            instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 4.5f);
                             break;
                         case 1:
-                            lastBossScript.BossHPDamage(teslaChargeTime / 2);
-                            instantTeslaHitEffect = GameObject.Instantiate(_teslaHitEffect) as GameObject;
-                            Destroy(instantTeslaHitEffect, 3.5f);
-                            SoundManager.Instance.PlaySeByName("beamgun1");
+                            instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 2);
                             break;
                         case 2:
-                            StartCoroutine("UltraTeslaCanon");
+                            instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(true, _teslaUltraChargeColor, teslaChargeTime / 2);
                             break;
                     }
                     // テスラキャノンが最大チャージで放たれたときの処理（最大チャージ量は可変。)
@@ -301,17 +296,4 @@ public class IronPlanetScript : MonoBehaviour {
         }
     }
 
-    private IEnumerator UltraTeslaCanon()
-    {
-        yield return new WaitForSeconds(0.75f);
-        instantTeslaHitEffect = GameObject.Instantiate(_teslaHitEffect) as GameObject;
-        Destroy(instantTeslaHitEffect, 3.5f);
-        SoundManager.Instance.PlaySeByName("cannon2");
-        SoundManager.Instance.PlaySeByName("beamgun2");
-        SoundManager.Instance.PlaySeByName("cannon2");
-        SoundManager.Instance.PlaySeByName("beamgun2");
-        lastBossScript.BossHPDamage(100);
-        yield return new WaitForSeconds(0.75f);
-        SoundManager.Instance.PlaySeByName("magic-gravity2");
-    }
 }

@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1097013132227834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.427, y: -2.887, z: 0}
-  m_LocalScale: {x: 0.69, y: 0.69, z: 0.69}
+  m_LocalPosition: {x: -4.564, y: -3.26, z: 0}
+  m_LocalScale: {x: 1.0626849, y: 1.0626849, z: 1.0626849}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -78,15 +78,15 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -3.66, y: 1.39}
-  - {x: -3.4, y: 1.57}
-  - {x: 3.11, y: 1.57}
-  - {x: 3.36, y: 1.39}
-  - {x: 3.36, y: -1.3}
-  - {x: 3.11, y: -1.63}
-  - {x: -3.4, y: -1.63}
-  - {x: -3.66, y: -1.3}
-  - {x: -3.66, y: 1.39}
+  - {x: -3.8116634, y: 0.68224066}
+  - {x: -3.6847985, y: 0.75945544}
+  - {x: 1.070977, y: 0.76113164}
+  - {x: 1.1676395, y: 0.6759101}
+  - {x: 1.1411052, y: -0.6878559}
+  - {x: 1.0878286, y: -0.72002345}
+  - {x: -3.7387047, y: -0.7031721}
+  - {x: -3.77796, y: -0.55853766}
+  - {x: -3.794811, y: 0.7496457}
 --- !u!114 &114548514274924802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,7 +106,7 @@ MonoBehaviour:
   _switchSpeed: 75
   _nockBackPower: 75
   _onGetBoosterAddMaxSpeed: 1.5
-  SPoleImage: {fileID: 21300000, guid: b2b1480d335662d46854027054267cc7, type: 3}
+  SPoleImage: {fileID: 21300000, guid: a1a6881e1c39ec440b37bd2e1e4189d5, type: 3}
 --- !u!212 &212051049144293432
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -142,7 +142,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: c065cecda74f2fb48ae25ce0ff92dc73, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8014494b213ac744b8db1cc43fa61592, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

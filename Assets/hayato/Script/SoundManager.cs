@@ -24,7 +24,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         set
         {
             volume = Mathf.Clamp01(value);
-            volume = PlayerPrefs.GetFloat("Master Volume", 1);
             bgmAudioSource.volume = bgmVolume * volume;
             seAudioSource.volume = seVolume * volume;
         }
@@ -39,7 +38,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         set
         {
             bgmVolume = Mathf.Clamp01(value);
-            volume = PlayerPrefs.GetFloat("BGM Volume", 1);
             bgmAudioSource.volume = bgmVolume * volume;
         }
         get
@@ -53,7 +51,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         set
         {
             seVolume = Mathf.Clamp01(value);
-            volume = PlayerPrefs.GetFloat("SE Volume", 1);
             seAudioSource.volume = seVolume * volume;
         }
         get
@@ -86,6 +83,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         for (int i = 0; i < se.Length; i++) {
             seIndex.Add(se[i].name, i);
         }
+
+        Volume = PlayerPrefs.GetFloat("MasterVolume", 1);
+        BgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1);
+        SeVolume = PlayerPrefs.GetFloat("SEVolume", 1);
     }
 
     public int GetBgmIndex(string name)

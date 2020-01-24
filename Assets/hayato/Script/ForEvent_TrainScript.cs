@@ -27,10 +27,14 @@ public class ForEvent_TrainScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "N_mag") {
+        if (collision.tag == "S_mag") {
             rb.bodyType = RigidbodyType2D.Dynamic;
             controller.enabled = false;
             StartCoroutine("TrainMoveStart");
+            GameObject mairo = GameObject.Find("Mairo");
+            mairo.transform.parent = transform;
+            mairo.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            SoundManager.Instance.PlaySeByName("kachi2");
         }
     }
 

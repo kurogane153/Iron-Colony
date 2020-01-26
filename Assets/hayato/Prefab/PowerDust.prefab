@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114199749542496596}
   - component: {fileID: 50077126966264738}
   - component: {fileID: 61550978312109858}
+  - component: {fileID: 114652484393584818}
   m_Layer: 0
   m_Name: PowerDust
   m_TagString: PowerDust
@@ -101,6 +102,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 9
   rb: {fileID: 0}
+--- !u!114 &114652484393584818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1834310239642624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd57a6041292654f8e299b83f414915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212108278955296528
 SpriteRenderer:
   m_ObjectHideFlags: 1

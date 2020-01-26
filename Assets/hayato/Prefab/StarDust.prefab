@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114102786549968814}
   - component: {fileID: 50433885937443508}
   - component: {fileID: 61552198279036664}
+  - component: {fileID: 114536312167729240}
   m_Layer: 0
   m_Name: StarDust
   m_TagString: StarDust
@@ -101,6 +102,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 9
   rb: {fileID: 0}
+--- !u!114 &114536312167729240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1805341093277116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd57a6041292654f8e299b83f414915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212978406372022188
 SpriteRenderer:
   m_ObjectHideFlags: 1

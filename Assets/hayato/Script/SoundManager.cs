@@ -128,11 +128,13 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void PauseBGM()
     {
         bgmAudioSource.Pause();
+        seAudioSource.Pause();
     }
 
     public void UnPauseBGM()
     {
         bgmAudioSource.UnPause();
+        seAudioSource.UnPause();
     }
 
     public void StopBgm()

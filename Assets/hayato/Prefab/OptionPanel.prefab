@@ -633,7 +633,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114447347428775618}
           m_MethodName: NonSelectSelf
           m_Mode: 1
           m_Arguments:
@@ -650,7 +650,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114447347428775618}
           m_MethodName: SelectSelf
           m_Mode: 1
           m_Arguments:
@@ -832,7 +832,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: Back_fromOption
+        m_MethodName: Back_fromOptionPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -928,7 +928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1315,7 +1315,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114278469454921790}
           m_MethodName: NonSelectSelf
           m_Mode: 1
           m_Arguments:
@@ -1332,7 +1332,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114278469454921790}
           m_MethodName: SelectSelf
           m_Mode: 1
           m_Arguments:
@@ -1389,7 +1389,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114944366254636600}
           m_MethodName: NonSelectSelf
           m_Mode: 1
           m_Arguments:
@@ -1406,7 +1406,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 114944366254636600}
           m_MethodName: SelectSelf
           m_Mode: 1
           m_Arguments:

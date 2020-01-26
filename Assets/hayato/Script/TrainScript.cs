@@ -32,6 +32,8 @@ public class TrainScript : MonoBehaviour {
         rb.velocity = new Vector2(_startSpeed, 0);
         sr = GetComponent<SpriteRenderer>();
         NPoleImage = sr.sprite;
+        SoundManager.Instance.PlayBgmByName("TABGM4");
+        SoundManager.Instance.PlaySeByName("bullet-train-driving1");
     }
 	
 	void Update () {
@@ -77,7 +79,7 @@ public class TrainScript : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "RailObject") {
-            
+            SoundManager.Instance.PlaySeByName("trainExplosion");
             if (isConflictRail) {
                 rb.AddForce(new Vector2(-_nockBackPower, rb.velocity.y), ForceMode2D.Impulse);
             } else if (!isConflictRail) {
@@ -119,6 +121,7 @@ public class TrainScript : MonoBehaviour {
         if (collision.tag == "Booster") {
             _maxSpeed += _onGetBoosterAddMaxSpeed;
             Destroy(collision.gameObject);
+            SoundManager.Instance.PlaySeByName("power-up1");
         } else if(collision.tag == "TrainMonster") {
             // 現在のScene名を取得する
             Scene loadScene = SceneManager.GetActiveScene();

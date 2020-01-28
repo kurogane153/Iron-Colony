@@ -11,6 +11,10 @@ public class IronPlanetScript : MonoBehaviour {
     public float rotateAngle = 0;
     private float rotateTimer = 0;
     public int angleNumber;
+    private bool invincible_flag;
+    private bool isFinalShotHit;
+    [SerializeField] private LayerMask platformLayer;
+    [SerializeField] private GameObject _finalShotInstance;
 
     private bool isTeslaShotNG;    // テスラキャノンを撃ってもいいかのフラグ
     private bool isMoveOK;          // プレイヤーが動いてもOKかのフラグ
@@ -28,6 +32,8 @@ public class IronPlanetScript : MonoBehaviour {
     [SerializeField] private Vector3 _chargeEffectoffset;
     [SerializeField] private Vector3 _shotEffectoffset;
     [SerializeField] private GameObject _teslaEnergySoul;   // テスラキャノン発射時に生成される弾オブジェクト
+    [SerializeField] private GameObject _damagedExplosioneffect;    // 被弾したときの爆発エフェクト
+    [SerializeField] private GameObject _deathExplosioneffect;  // 死亡時爆発エフェクト
     private Vector3 teslaCannonPosition;  // テスラキャノンの座標
     private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
     private GameObject instantTeslaShotEffect;  // Instantiateされたテスラキャノンショットエフェクト
@@ -65,6 +71,8 @@ public class IronPlanetScript : MonoBehaviour {
         teslaNormalColor = TeslaSliderFill.color;
 
         SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
+        PowerCharge();
+        PowerCharge();
     }
 	
 	void Update () {
@@ -98,6 +106,7 @@ public class IronPlanetScript : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        
         if (isMoveOK) {
             if(66f < teslaChargeTime) {
                 rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed / 4 - rb.velocity.x), playerManager.MoveForceMultiplier * (inputManager.UpMoveKey * playerManager.MoveSpeed / 4 - rb.velocity.y)));
@@ -165,6 +174,13 @@ public class IronPlanetScript : MonoBehaviour {
                             break;
                         case 2:
                             instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(true, _teslaUltraChargeColor, teslaChargeTime / 2);
+                            Vector2 castStart = transform.position;
+                            Vector2 castEnd = transform.position + transform.right * 30f;
+                            isFinalShotHit = Physics2D.Linecast(castStart, castEnd, platformLayer);
+                            if(isFinalShotHit && lastBossScript.GetbossHp() - 100 <= 0) {
+                                FinalShot();
+                            }
+                            Debug.DrawLine(castStart, castEnd, Color.red);
                             break;
                     }
                     // テスラキャノンが最大チャージで放たれたときの処理（最大チャージ量は可変。)
@@ -232,26 +248,34 @@ public class IronPlanetScript : MonoBehaviour {
     // ダメージを受ける
     private void Damage()
     {
-        SoundManager.Instance.PlaySeByName("bomb1");
-        playerHP -= _HPDamage;
-        Debug.Log("現在のHP " + playerHP + " / " + _playerStartHP);
+        if (!invincible_flag) {
+            SoundManager.Instance.PlaySeByName("bomb1");
+            playerHP -= _HPDamage;
+            Debug.Log("現在のHP " + playerHP + " / " + _playerStartHP);
 
-        // HPバー関係
-        HPslider.value = playerHP / _playerStartHP;
-        if(playerHP <= _playerStartHP / 3.5) {
-            // HPが28%くらいでデンジャーカラー
-            HPsliderFill.color = _dangerColor;
-        } else if (playerHP <= _playerStartHP / 2) {
-            // HPが半分以下でコーションカラー
-            HPsliderFill.color = _coutionColor;
-        }
 
-        if (playerHP <= 0) {
-            // 現在のScene名を取得する
-            Scene loadScene = SceneManager.GetActiveScene();
-            // Sceneの読み直し
-            FadeManager.Instance.LoadScene("LastBossTestScene", 1f);
+            // HPバー関係
+            HPslider.value = playerHP / _playerStartHP;
+            if (playerHP <= _playerStartHP / 3.5) {
+                // HPが28%くらいでデンジャーカラー
+                HPsliderFill.color = _dangerColor;
+            } else if (playerHP <= _playerStartHP / 2) {
+                // HPが半分以下でコーションカラー
+                HPsliderFill.color = _coutionColor;
+            }
+
+            if (playerHP <= 0) {
+                Instantiate(_deathExplosioneffect, transform.position, Quaternion.identity);
+                transform.position = new Vector3(0, 0, -11);
+                // 現在のScene名を取得する
+                Scene loadScene = SceneManager.GetActiveScene();
+                // Sceneの読み直し
+                FadeManager.Instance.LoadScene("LastBossTestScene", 1f);
+            } else {
+                Instantiate(_damagedExplosioneffect, transform.position, Quaternion.identity);
+            }
         }
+        
     }
 
     // パワーダストを取ったとき、テスラキャノンのチャージ上限を解放する。最大で2まで増える。
@@ -294,6 +318,13 @@ public class IronPlanetScript : MonoBehaviour {
             PowerCharge();
             Debug.Log("パワーダストを吸収してチャージ容量が増えた！");
         }
+    }
+
+    private void FinalShot()
+    {
+        lastBossScript.SetDeathConfirmFlag();
+        invincible_flag = true;
+        Instantiate(_finalShotInstance, transform.position, Quaternion.identity);
     }
 
 }

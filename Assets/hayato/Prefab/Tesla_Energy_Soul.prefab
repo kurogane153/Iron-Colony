@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212543955218384166}
   - component: {fileID: 58827537868395642}
   - component: {fileID: 114622030706177222}
+  - component: {fileID: 114879120906533026}
   m_Layer: 0
   m_Name: Tesla_Energy_Soul
   m_TagString: Untagged
@@ -71,6 +72,19 @@ MonoBehaviour:
   _speed: 0.75
   _teslaHitEffect: {fileID: 1244325707689110, guid: bc0d03d8967ff3b45b00ef0b01756902,
     type: 2}
+  _smallEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1,
+    type: 2}
+--- !u!114 &114879120906533026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970389668538300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd57a6041292654f8e299b83f414915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212543955218384166
 SpriteRenderer:
   m_ObjectHideFlags: 1

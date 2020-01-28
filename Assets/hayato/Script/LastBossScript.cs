@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class LastBossScript : MonoBehaviour {
 
     private float bossHp;
+    public float GetbossHp() { return bossHp; }
     private int dustThrowCount;
     private bool isCrazyMode;
     private float dustThrowTimer;
+    private bool deathConfirmFlag;
+    public void SetDeathConfirmFlag() { deathConfirmFlag = true; }
 
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject DustThrowPoint;
@@ -25,12 +28,13 @@ public class LastBossScript : MonoBehaviour {
     [SerializeField] private int _powerDustThrowTime_Crazy = 5;
 
     void Start () {
-        bossHp = _bossStartHP;
-        slider.value = 1;
+        bossHp = _bossStartHP/3;
+        slider.value = bossHp / _bossStartHP; ;
     }
-	
-	void Update () {
-        if(  0 < bossHp ) {
+
+    private void FixedUpdate()
+    {
+        if (0 < bossHp && !deathConfirmFlag) {
             dustThrowTimer += Time.deltaTime;
             if (isCrazyMode) {
                 if (_dustThrowRate_Crazy <= dustThrowTimer) {
@@ -48,8 +52,7 @@ public class LastBossScript : MonoBehaviour {
                 }
             }
         }
-
-	}
+    }
 
     private GameObject InstantDust()
     {

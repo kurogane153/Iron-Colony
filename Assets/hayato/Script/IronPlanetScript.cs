@@ -100,8 +100,6 @@ public class IronPlanetScript : MonoBehaviour {
                 isRotating = false;
             }
         }
-
-        
     }
 
     private void FixedUpdate()
@@ -154,7 +152,6 @@ public class IronPlanetScript : MonoBehaviour {
                 }
             }
             TeslaSlider.value = teslaChargeTime / 100;
-            Debug.Log("テスラキャノン量      " + teslaChargeTime);
 
         } else if (inputManager.JumpKey == 0 || isTeslaShotNG) {
             // テスラキャノンチャージ中エフェクトがあったら削除して、ヒットエフェクトとショットエフェクト表示
@@ -179,7 +176,9 @@ public class IronPlanetScript : MonoBehaviour {
                             isFinalShotHit = Physics2D.Linecast(castStart, castEnd, platformLayer);
                             if(isFinalShotHit && lastBossScript.GetbossHp() - 100 <= 0) {
                                 FinalShot();
+                                
                             }
+                            Debug.Log(isFinalShotHit);
                             Debug.DrawLine(castStart, castEnd, Color.red);
                             break;
                     }

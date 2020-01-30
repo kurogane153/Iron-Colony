@@ -29,7 +29,7 @@ public class LastBossScript : MonoBehaviour {
 
     void Start () {
         bossHp = _bossStartHP/3;
-        slider.value = bossHp / _bossStartHP; ;
+        slider.value = bossHp / _bossStartHP;
     }
 
     private void FixedUpdate()

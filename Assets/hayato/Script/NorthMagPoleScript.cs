@@ -26,7 +26,9 @@ public class NorthMagPoleScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             pointEffector.forceMagnitude = -MyForceMagnitude;
-            Instantiate(RepulsionParticle, transform.position, transform.rotation);
+            Vector3 center = (collision.transform.position + transform.position) * 0.5f;
+            Instantiate(RepulsionParticle, center, transform.rotation);
+            SoundManager.Instance.PlaySeByName("light_saber1");
         } else if (collision.gameObject.tag == "Movable Magnet S") {
             pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
         } else if ((collision.gameObject.tag == "Movable Magnet S" || collision.gameObject.tag == "Movable Magnet N") && (playerController.angleNumber == 1 || playerController.angleNumber == 3)) {
@@ -37,26 +39,30 @@ public class NorthMagPoleScript : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Movable Magnet S") {
-            DisablePointEffector();
+            
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2) && !playerController.GetIsRotating()) {
+        if (collision.gameObject.tag == "Movable Magnet S" && !playerController.GetisMovableMagStck() && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
             playerController.SetMovableMagStickFlg(collision);
+            DisablePointEffector();
+        } else if (collision.gameObject.tag == "Magnet" && !playerController.GetIsRotating() && collision.gameObject.GetComponent<MagnetController>().isPoleEnter && collision.gameObject.GetComponent<MagnetController>().IsMagPole_S()) {
+            StickPerticleEnable();
+            SoundManager.Instance.PlaySeByName("kachi2");
         }
-       
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Movable Magnet N") {
-            pointEffector.forceMagnitude = MyForceMagnitude * movableMagImpactPower;
+        if(collision.gameObject.tag == "Movable Magnet N" && (playerController.angleNumber == 0 || playerController.angleNumber == 2)) {
+            pointEffector.forceMagnitude = MyForceMagnitude;
+            Vector3 center = (collision.transform.position + transform.position) * 0.5f;
+            Instantiate(RepulsionParticle, center, transform.rotation);
         } else if (collision.gameObject.tag == "Movable Magnet S") {
             EnablePointEffector();
-        }
+        } 
     }
 
     public void EnablePointEffector ()

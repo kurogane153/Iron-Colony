@@ -20,7 +20,7 @@ public class test : MonoBehaviour
 
     void Update()
     {
-        if (Player.transform.position.x > 0)
+        if (Player.transform.position.x > -2.05)
         {
             //カメラはプレイヤーと同じ位置にする
             mainCamera.transform.position = new Vector3(Player.transform.position.x + X_camera, 0, Player.transform.position.z + zAdjust);

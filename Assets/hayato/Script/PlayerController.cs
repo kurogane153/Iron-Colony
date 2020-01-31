@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public int angleNumber;
 
     public bool isWallStick = false;
+    private bool isMagJamp = false;
     private bool isJumping = false;
     private bool isJumpingCheck = true;
     private float jumpTimeCounter;
@@ -57,8 +58,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // 指定したオブジェクトの座標を使って、地面と当たり判定をしている。
-        Vector2 groundedStart = eye.transform.position - eye.transform.up * 0.38f - eye.transform.right * 0.38f;
-        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.38f + eye.transform.right * 0.38f;
+        Vector2 groundedStart = eye.transform.position - eye.transform.up * 0.34f - eye.transform.right * 0.3f;
+        Vector2 groundedEnd = eye.transform.position - eye.transform.up * 0.34f + eye.transform.right * 0.3f;
 
         isGrounded = Physics2D.Linecast(groundedStart, groundedEnd, platformLayer);
         Debug.DrawLine(groundedStart, groundedEnd, Color.red);
@@ -66,9 +67,15 @@ public class PlayerController : MonoBehaviour
         if (!isRotating) {      // 回転していないときは、キー入力を受け取る。
             if (inputManager.RotateLeftKey) {
                 RotatingNow(90);
-                
+                if (3 < ++angleNumber) {
+                    angleNumber = 0;
+                }
+
             } else if (inputManager.RotateRightKey) {
                 RotatingNow(-90);
+                if (0 > --angleNumber) {
+                    angleNumber = 3;
+                }
             }
         } else {        // 回転中の処理。回転できるようになるまでの時間を減らしてる
             rotateTimer -= Time.deltaTime;
@@ -86,7 +93,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector2(playerManager.MoveForceMultiplier * (inputManager.MoveKey * playerManager.MoveSpeed - rb.velocity.x), rb.velocity.y));
 
             if (isJumpingCheck && inputManager.JumpKey != 0) {
-                SoundManager.Instance.PlaySeByName("Jump");
+                SoundManager.Instance.PlaySeByName("Jump_2");
                 jumpTimeCounter = playerManager.JumpTime;
                 isJumpingCheck = false;
                 isJumping = true;
@@ -160,14 +167,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Magnetに触れたときにも、地面に触れた、ということにして
-    // ジャンプできるようにしている。
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Magnet") {
-            isGrounded = true;
+            isWallStick = true;
+            isMagJamp = false;
+
         }
-        
     }
 
     // プレイヤーのコライダーに触れたやつのタグがMagnetだったときにそこからジャンプしたとき！
@@ -179,7 +185,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             
-            if (isJumpingCheck && inputManager.JumpKey != 0) {
+            if (isJumpingCheck && inputManager.JumpKey == 1 && isWallStick && !isMagJamp) {
                 PointEffector2D effector2D = collision.gameObject.GetComponent<PointEffector2D>();
                 MagnetController magnet = collision.gameObject.GetComponent<MagnetController>();
                 magnet.effectorEnabledTime = magnet.effectorEnabledCounter;
@@ -195,6 +201,16 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
                 _jumpPower = playerManager.JumpPower;
                 isWallStick = false;
+                SoundManager.Instance.PlaySeByName("Jump_2");
+                isMagJamp = true;
+            } else if (isJumpingCheck && inputManager.JumpKey == 1 && !isMagJamp) {
+                SoundManager.Instance.PlaySeByName("Jump_2");
+                jumpTimeCounter = playerManager.JumpTime;
+                isJumpingCheck = false;
+                isJumping = true;
+                _jumpPower = playerManager.JumpPower;
+                isWallStick = false;
+                isMagJamp = true;
             }
         }
     }
@@ -203,6 +219,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Magnet") {
             isWallStick = false;
+            isMagJamp = false;
         }
     }
 
@@ -219,12 +236,11 @@ public class PlayerController : MonoBehaviour
         isRotating = true;
         rotateTimer = playerManager.RotationSecond;
         iTween.RotateTo(gameObject, iTween.Hash("z", rotateAngle, "time", playerManager.RotationSecond));
-        if (3 < ++angleNumber) {
-            angleNumber = 0;
-        }
+        
         if (isMovableMagStick) {
             OnRotateOffMagStick();
         }
+        SoundManager.Instance.PlaySeByName("punch-swing1");
     }
 
     // 動く磁石をくっつかせたときの処理
@@ -268,6 +284,16 @@ public class PlayerController : MonoBehaviour
     public void Change_Normal_Sprite()
     {
         Renderer.sprite = NormalSprite;
+    }
+
+    public void MovableMagSetPalent(Collision2D collision)
+    {
+        transform.SetParent(collision.transform);
+    }
+
+    private void RemovePalent()
+    {
+        transform.SetParent(null);
     }
 
 }

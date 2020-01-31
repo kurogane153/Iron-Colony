@@ -21,6 +21,8 @@ public class MagnetController : MonoBehaviour {
     GameObject playerMagS;
 
     public GameObject RepulsionParticle;
+    public Sprite StickImage;
+    private Sprite NormalImage;
 
     PlayerController playerController;
 
@@ -47,6 +49,7 @@ public class MagnetController : MonoBehaviour {
         playerController = GameObject.Find("Mairo").GetComponent<PlayerController>();
         sprite = GetComponent<SpriteRenderer>();
         color = sprite.color;
+        NormalImage = sprite.sprite;
     }
 
     // プレイヤーがジャンプしたときにPointEffector2Dを無効化されたときの処理。
@@ -80,7 +83,7 @@ public class MagnetController : MonoBehaviour {
                         effector2D.enabled = false;
                         Transparentize_half();
                     } else {
-                        Decide_force_magnitude();
+                        Decide_force_magnitude(collision.transform.position, collision.transform.rotation);
                     }
                     break;
                 case 1:
@@ -89,7 +92,7 @@ public class MagnetController : MonoBehaviour {
                         effector2D.enabled = false;
                         Transparentize_half();
                     } else {
-                        Decide_force_magnitude();
+                        Decide_force_magnitude(collision.transform.position, collision.transform.rotation);
                     }
                     break;
 
@@ -111,7 +114,7 @@ public class MagnetController : MonoBehaviour {
                     if (playerController.angleNumber == 1 || playerController.angleNumber == 3) {
                         Invalid_temporarily();
                     } else {
-                        Decide_force_magnitude();
+                        Decide_force_magnitude(collision.transform.position, collision.transform.rotation);
                     }
                     break;
                 case 1:
@@ -119,22 +122,23 @@ public class MagnetController : MonoBehaviour {
                     if (playerController.angleNumber == 0 || playerController.angleNumber == 2) {
                         Invalid_temporarily();
                     } else {
-                        Decide_force_magnitude();
+                        Decide_force_magnitude(collision.transform.position, collision.transform.rotation);
                     }
                     break;
 
             }
-            isPoleEnter = true;
             enterPole = collision.tag;
+            isPoleEnter = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == enterPole && isPoleEnter == true) {
+        if (collision.tag == enterPole && isPoleEnter) {
             isPoleEnter = false;
             effectorEnabledTime = effectorEnabledCounter;
             playerController.Change_Normal_Sprite();
+            Change_MyImage_Normal();
             playerController.isWallStick = false;
         }
     }
@@ -146,6 +150,7 @@ public class MagnetController : MonoBehaviour {
         semitransparentColor.a = 0.5f;
         sprite.color = semitransparentColor;
         playerController.Change_Normal_Sprite();
+        Change_MyImage_Normal();
     }
 
     //プレイヤーから磁界のない向きで近づかれたときに磁石の磁力を一時的に無効化させるふるまい
@@ -186,7 +191,7 @@ public class MagnetController : MonoBehaviour {
     }
 
     //磁石の極とプレイヤーが近づけさせてきた極を参照して、吸引するか反発するか切り替えている。
-    private void Decide_force_magnitude()
+    private void Decide_force_magnitude(Vector3 magTransForm, Quaternion magRotation)
     {
         if (Pole == MagPole.N_mag) {
 
@@ -194,21 +199,17 @@ public class MagnetController : MonoBehaviour {
             if (distanceN < distanceS) {
                 effector2D.forceMagnitude = -myForceMagunitude;
                 playerController.Change_Effectively_S_Pole();
-                if (!playerController.GetIsRotating())
+                if (!playerController.GetIsRotating() && !isPoleEnter)
                 {
-                    Instantiate(RepulsionParticle, transform.position, transform.rotation);
-
+                    Instantiate(RepulsionParticle, magTransForm, magRotation);
+                    SoundManager.Instance.PlaySeByName("light_saber1");
                 }
                 // S極のほうが近かったら吸引モード
             } else {
                 effector2D.forceMagnitude = myForceMagunitude;
                 playerController.Change_Effectively_N_Pole();
                 playerController.isWallStick = true;
-                if (!playerController.GetIsRotating() && !isPoleEnter)
-                {
-                    playerMagS.GetComponent<SouthMagPoleScript>().StickPerticleEnable();
-
-                }
+                Change_MyImage_Stick();
             }
 
         } else if (Pole == MagPole.S_mag) {
@@ -217,23 +218,47 @@ public class MagnetController : MonoBehaviour {
                 effector2D.forceMagnitude = myForceMagunitude;
                 playerController.Change_Effectively_N_Pole();
                 playerController.isWallStick = true;
-                if (!playerController.GetIsRotating() && !isPoleEnter)
-                {
-                    playerMagN.GetComponent<NorthMagPoleScript>().StickPerticleEnable();
-
-                }
+                Change_MyImage_Stick();
+                
+               
                 // S極のほうが近かったら反発モード
             } else {
                 effector2D.forceMagnitude = -myForceMagunitude;
                 playerController.Change_Effectively_S_Pole();
-                if (!playerController.GetIsRotating())
+                if (!playerController.GetIsRotating() && !isPoleEnter)
                 {
-                    Instantiate(RepulsionParticle, transform.position, transform.rotation);
-
+                    Instantiate(RepulsionParticle, magTransForm, magRotation);
+                    SoundManager.Instance.PlaySeByName("light_saber1");
                 }
             }
         }
     }
 
+    private void Change_MyImage_Normal()
+    {
+        sprite.sprite = NormalImage;
+    }
 
+    private void Change_MyImage_Stick()
+    {
+        sprite.sprite = StickImage;
+    }
+    
+    public bool IsMagPole_N()
+    {
+        if (Pole == MagPole.N_mag) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public bool IsMagPole_S()
+    {
+        if (Pole == MagPole.S_mag) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

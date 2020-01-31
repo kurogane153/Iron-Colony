@@ -68,6 +68,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
         DontDestroyOnLoad(gameObject);
 
+        
+
         bgmAudioSource = gameObject.AddComponent<AudioSource>();
         seAudioSource = gameObject.AddComponent<AudioSource>();
 
@@ -81,6 +83,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         for (int i = 0; i < se.Length; i++) {
             seIndex.Add(se[i].name, i);
         }
+
+        Volume = PlayerPrefs.GetFloat("MasterVolume", 1);
+        BgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1);
+        SeVolume = PlayerPrefs.GetFloat("SEVolume", 1);
     }
 
     public int GetBgmIndex(string name)
@@ -117,6 +123,18 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void PlayBgmByName(string name)
     {
         PlayBgm(GetBgmIndex(name));
+    }
+
+    public void PauseBGM()
+    {
+        bgmAudioSource.Pause();
+        seAudioSource.Pause();
+    }
+
+    public void UnPauseBGM()
+    {
+        bgmAudioSource.UnPause();
+        seAudioSource.UnPause();
     }
 
     public void StopBgm()

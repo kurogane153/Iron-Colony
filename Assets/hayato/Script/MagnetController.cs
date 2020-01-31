@@ -134,7 +134,7 @@ public class MagnetController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == enterPole && isPoleEnter == true) {
+        if (collision.tag == enterPole && isPoleEnter) {
             isPoleEnter = false;
             effectorEnabledTime = effectorEnabledCounter;
             playerController.Change_Normal_Sprite();

@@ -11,6 +11,22 @@ TagManager:
   - Mairo
   - Movable Magnet S
   - Movable Magnet N
+  - FxTemporaire
+  - StarDust
+  - PowerDust
+  - IronPlanet
+  - LastBoss
+  - CannonChargeUnit
+  - FlowerStand
+  - FlowerMaxGrowPoint
+  - KillZone
+  - FlowreStand
+  - CollapseWallStopTrigger
+  - RailObject
+  - Rail
+  - Booster
+  - TrainMonster
+  - EventTrain
   layers:
   - Default
   - TransparentFX
@@ -26,8 +42,8 @@ TagManager:
   - Player
   - Movable Magnet N
   - Movable Magnet S
-  - 
-  - 
+  - Stick Move Mag
+  - LastBoss
   - 
   - 
   - 

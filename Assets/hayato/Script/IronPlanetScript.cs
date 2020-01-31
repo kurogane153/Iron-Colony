@@ -74,8 +74,6 @@ public class IronPlanetScript : MonoBehaviour {
         teslaNormalColor = TeslaSliderFill.color;
 
         SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
-        PowerCharge();
-        PowerCharge();
     }
 	
 	void Update () {
@@ -162,15 +160,15 @@ public class IronPlanetScript : MonoBehaviour {
 
                 SoundManager.Instance.StopSe();
                 if (teslaChargeTime >= teslaCapacity) {
-                    SoundManager.Instance.PlaySeByName("beamgun1");
-                    
                     // チャージ量によって与えるダメージが変動する。
                     switch (powerDustGetCount) {
                         case 0:
+                            SoundManager.Instance.PlaySeByName("beamgun1");
                             instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                             instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 4.5f);
                             break;
                         case 1:
+                            SoundManager.Instance.PlaySeByName("beamgun1");
                             instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                             instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 2);
                             break;
@@ -183,6 +181,7 @@ public class IronPlanetScript : MonoBehaviour {
                             if (isFinalShotHit && lastBossScript.GetbossHp() - 100 <= 0) {
                                 FinalShot();
                             } else {
+                                SoundManager.Instance.PlaySeByName("beamgun1");
                                 instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                                 instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(true, _teslaUltraChargeColor, 100);
                             }
@@ -331,7 +330,6 @@ public class IronPlanetScript : MonoBehaviour {
         lastBossScript.SetDeathConfirmFlag();
         invincible_flag = true;
         Instantiate(_finalShotInstance, transform.position, Quaternion.identity);
-        SoundManager.Instance.PlaySeByName("hero1");
         _cutinAnim_1.SetActive(true);
         _cutinAnim_2.SetActive(true);
     }

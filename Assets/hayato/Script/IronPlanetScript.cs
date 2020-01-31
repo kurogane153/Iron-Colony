@@ -34,6 +34,8 @@ public class IronPlanetScript : MonoBehaviour {
     [SerializeField] private GameObject _teslaEnergySoul;   // テスラキャノン発射時に生成される弾オブジェクト
     [SerializeField] private GameObject _damagedExplosioneffect;    // 被弾したときの爆発エフェクト
     [SerializeField] private GameObject _deathExplosioneffect;  // 死亡時爆発エフェクト
+    [SerializeField] private GameObject _cutinAnim_1;
+    [SerializeField] private GameObject _cutinAnim_2;
     private Vector3 teslaCannonPosition;  // テスラキャノンの座標
     private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
     private GameObject instantTeslaShotEffect;  // Instantiateされたテスラキャノンショットエフェクト
@@ -72,6 +74,8 @@ public class IronPlanetScript : MonoBehaviour {
         teslaNormalColor = TeslaSliderFill.color;
 
         SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
+        PowerCharge();
+        PowerCharge();
     }
 	
 	void Update () {
@@ -79,14 +83,14 @@ public class IronPlanetScript : MonoBehaviour {
             // 回転していない＆テスラキャノンチャージしていない＆テスラキャノン最大ショット後の硬直でないときに回転できる
             if (inputManager.RotateLeftKey) {
                 RotatingNow(180);
-                if (instantTeslaShotEffect != null) {
+                if (!ReferenceEquals(instantTeslaShotEffect, null)) {
                     // ショットエフェクトがあったら削除しておく。
                     Destroy(instantTeslaShotEffect);
                 }
 
             } else if (inputManager.RotateRightKey) {
                 RotatingNow(-180);
-                if (instantTeslaShotEffect != null) {
+                if (!ReferenceEquals(instantTeslaShotEffect, null)) {
                     // ショットエフェクトがあったら削除しておく。
                     Destroy(instantTeslaShotEffect);
                 }
@@ -327,7 +331,9 @@ public class IronPlanetScript : MonoBehaviour {
         lastBossScript.SetDeathConfirmFlag();
         invincible_flag = true;
         Instantiate(_finalShotInstance, transform.position, Quaternion.identity);
-        Pauser.Pause();
+        
+        _cutinAnim_1.SetActive(true);
+        _cutinAnim_2.SetActive(true);
     }
 
 }

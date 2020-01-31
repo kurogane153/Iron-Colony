@@ -37,6 +37,7 @@ public class IronPlanetScript : MonoBehaviour {
     private Vector3 teslaCannonPosition;  // テスラキャノンの座標
     private GameObject instantEffect;   // Instantiateされたエフェクトを覚えておく
     private GameObject instantTeslaShotEffect;  // Instantiateされたテスラキャノンショットエフェクト
+    GameObject instantTeslaEnergySoul;
 
     public Slider HPslider;
     public Image HPsliderFill;
@@ -71,8 +72,6 @@ public class IronPlanetScript : MonoBehaviour {
         teslaNormalColor = TeslaSliderFill.color;
 
         SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
-        PowerCharge();
-        PowerCharge();
     }
 	
 	void Update () {
@@ -160,26 +159,30 @@ public class IronPlanetScript : MonoBehaviour {
                 SoundManager.Instance.StopSe();
                 if (teslaChargeTime >= teslaCapacity) {
                     SoundManager.Instance.PlaySeByName("beamgun1");
-                    GameObject instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
+                    
                     // チャージ量によって与えるダメージが変動する。
                     switch (powerDustGetCount) {
                         case 0:
+                            instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                             instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 4.5f);
                             break;
                         case 1:
+                            instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
                             instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(false, _teslaMaxChargeColor, teslaChargeTime / 2);
                             break;
                         case 2:
-                            instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(true, _teslaUltraChargeColor, teslaChargeTime / 2);
                             Vector2 castStart = transform.position;
                             Vector2 castEnd = transform.position + transform.right * 30f;
                             isFinalShotHit = Physics2D.Linecast(castStart, castEnd, platformLayer);
-                            if(isFinalShotHit && lastBossScript.GetbossHp() - 100 <= 0) {
-                                FinalShot();
-                                
-                            }
                             Debug.Log(isFinalShotHit);
                             Debug.DrawLine(castStart, castEnd, Color.red);
+                            if (isFinalShotHit && lastBossScript.GetbossHp() - 100 <= 0) {
+                                FinalShot();
+                            } else {
+                                instantTeslaEnergySoul = Instantiate(_teslaEnergySoul, transform.position, Quaternion.identity) as GameObject;
+                                instantTeslaEnergySoul.GetComponent<EnergySoulScript>().SetParameter(true, _teslaUltraChargeColor, 100);
+                            }
+                            
                             break;
                     }
                     // テスラキャノンが最大チャージで放たれたときの処理（最大チャージ量は可変。)
@@ -324,6 +327,7 @@ public class IronPlanetScript : MonoBehaviour {
         lastBossScript.SetDeathConfirmFlag();
         invincible_flag = true;
         Instantiate(_finalShotInstance, transform.position, Quaternion.identity);
+        Pauser.Pause();
     }
 
 }

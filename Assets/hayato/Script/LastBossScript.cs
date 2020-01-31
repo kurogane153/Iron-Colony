@@ -83,7 +83,7 @@ public class LastBossScript : MonoBehaviour {
             //ボスHPが最大値の3割かつ発狂モードでないとき
             yield return new WaitForSeconds(3.5f);
             isCrazyMode = true;
-            GetComponent<SpriteRenderer>().color = new Color(1, 0.1f, 0.1f);
+            GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.1f, 0.1f);
             SoundManager.Instance.StopBgm();
             SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss04");
             Debug.Log("ラスボスは発狂モードになった！！");

@@ -331,7 +331,7 @@ public class IronPlanetScript : MonoBehaviour {
         lastBossScript.SetDeathConfirmFlag();
         invincible_flag = true;
         Instantiate(_finalShotInstance, transform.position, Quaternion.identity);
-        
+        SoundManager.Instance.PlaySeByName("hero1");
         _cutinAnim_1.SetActive(true);
         _cutinAnim_2.SetActive(true);
     }

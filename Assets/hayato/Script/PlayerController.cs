@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private float jumpTimeCounter;
     private float _jumpPower;
 
+    private Vector3 restartPoint;
+
     private GameObject childNMagPole;
     private GameObject childSMagPole;
     private float childEnableCounter;
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
         northMagController = childNMagPole.GetComponent<NorthMagPoleScript>();
         southmagController = childSMagPole.GetComponent<SouthMagPoleScript>();
         Renderer = gameObject.GetComponent<SpriteRenderer>();
+        restartPoint = transform.position;
     }
 
     void Update()
@@ -220,6 +223,17 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Magnet") {
             isWallStick = false;
             isMagJamp = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "RestartPoint") {
+            restartPoint = collision.transform.position;
+            Destroy(collision.gameObject);
+        } else if (collision.tag == "KillZone"){
+            transform.position = restartPoint;
+            rb.velocity = Vector2.zero;
         }
     }
 

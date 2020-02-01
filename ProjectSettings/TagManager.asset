@@ -27,6 +27,7 @@ TagManager:
   - Booster
   - TrainMonster
   - EventTrain
+  - RestartPoint
   layers:
   - Default
   - TransparentFX
@@ -44,7 +45,7 @@ TagManager:
   - Movable Magnet S
   - Stick Move Mag
   - LastBoss
-  - 
+  - RestartPoint
   - 
   - 
   - 

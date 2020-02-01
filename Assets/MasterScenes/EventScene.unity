@@ -573,9 +573,7 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 288276396}
-  selectedCommands:
-  - {fileID: 288276402}
-  - {fileID: 0}
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -721,7 +719,7 @@ MonoBehaviour:
   targetColorOLD: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &288276401
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 288276393}
@@ -754,7 +752,7 @@ MonoBehaviour:
   isLocal: 0
 --- !u!114 &288276402
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 288276393}
@@ -787,7 +785,7 @@ MonoBehaviour:
   isLocal: 0
 --- !u!114 &288276403
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 288276393}

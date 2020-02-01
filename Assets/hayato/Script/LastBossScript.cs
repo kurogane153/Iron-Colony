@@ -27,6 +27,8 @@ public class LastBossScript : MonoBehaviour {
     [SerializeField] private int _powerDustThrowTime_Normal = 3;
     [SerializeField] private int _powerDustThrowTime_Crazy = 5;
 
+    [SerializeField] private GameObject _effectPoint1, _effectPoint2, _effectPoint3, _smallEffect, _bigEffect;
+
     void Start () {
         bossHp = _bossStartHP/3;
         slider.value = bossHp / _bossStartHP;
@@ -83,10 +85,32 @@ public class LastBossScript : MonoBehaviour {
             //ボスHPが最大値の3割かつ発狂モードでないとき
             yield return new WaitForSeconds(3.5f);
             isCrazyMode = true;
-            GetComponent<SpriteRenderer>().color = new Color(1, 0.1f, 0.1f);
+            GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.1f, 0.1f);
             SoundManager.Instance.StopBgm();
             SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss04");
             Debug.Log("ラスボスは発狂モードになった！！");
+        } else if(bossHp <= 0 && isCrazyMode) {
+            //ボスがHP0以下かつ発狂モードであるとき
+            yield return new WaitForSeconds(3.5f);
+            SoundManager.Instance.StopBgm();
+            yield return new WaitForSeconds(0.5f);
+            Instantiate(_smallEffect, _effectPoint1.transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySeByName("bomb1");
+            yield return new WaitForSeconds(0.5f);
+            Instantiate(_smallEffect, _effectPoint2.transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySeByName("bomb1");
+            yield return new WaitForSeconds(0.5f);
+            Instantiate(_smallEffect, _effectPoint3.transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySeByName("bomb1");
+            yield return new WaitForSeconds(1f);
+            Instantiate(_bigEffect, transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySeByName("bomb1");
+            SoundManager.Instance.PlaySeByName("bomb1");
+            GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+            GetComponent<CircleCollider2D>().enabled = false;
+            transform.GetChild(0).gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(3f);
+            FadeManager.Instance.LoadScene("EndingScene", 3.5f);
         }
     }
 

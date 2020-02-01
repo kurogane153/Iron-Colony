@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: 913520956}
   - component: {fileID: 913520957}
   - component: {fileID: 913520958}
+  - component: {fileID: 913520960}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -344,7 +345,7 @@ MonoBehaviour:
   scrollPos: {x: 0, y: 0}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 400
+  blockViewHeight: 200
   zoom: 1
   scrollViewRect:
     serializedVersion: 2
@@ -354,7 +355,8 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 913520957}
-  selectedCommands: []
+  selectedCommands:
+  - {fileID: 913520960}
   variables: []
   description: 
   stepPause: 0
@@ -390,7 +392,8 @@ MonoBehaviour:
   blockName: New Block
   description: 
   eventHandler: {fileID: 913520958}
-  commandList: []
+  commandList:
+  - {fileID: 913520960}
 --- !u!114 &913520958
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -418,3 +421,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &913520960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 913520955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 1
+  indentLevel: 0
+  storyText: "\u30A2\u30F3\u30C1"
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}

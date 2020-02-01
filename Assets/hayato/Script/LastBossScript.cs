@@ -30,7 +30,7 @@ public class LastBossScript : MonoBehaviour {
     [SerializeField] private GameObject _effectPoint1, _effectPoint2, _effectPoint3, _smallEffect, _bigEffect;
 
     void Start () {
-        bossHp = _bossStartHP/3;
+        bossHp = _bossStartHP;
         slider.value = bossHp / _bossStartHP;
     }
 
@@ -58,6 +58,7 @@ public class LastBossScript : MonoBehaviour {
 
     private GameObject InstantDust()
     {
+        SoundManager.Instance.PlaySeByName("cannon2");
         if (isCrazyMode) {
             if(dustThrowCount == _powerDustThrowTime_Crazy) {
                 Debug.Log("発狂モードのラスボスがパワーダストを投げた！");

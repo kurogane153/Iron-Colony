@@ -51,6 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ac0abc60701904ca2d0ecd58596d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _teslaEnergySoul: {fileID: 1970389668538300, guid: 9032e82420b2f0148b1d847bed3c8d4d,
+  _teslaEnergySoul: {fileID: 1598072879069048, guid: c4ca4f4f3b7400943b6f62fcfe88cb2c,
     type: 2}
   _teslaUltraChargeColor: {r: 0.6, g: 0.11764706, b: 0.8, a: 1}

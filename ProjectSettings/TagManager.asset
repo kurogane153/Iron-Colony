@@ -3,31 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Ground
-  - N_mag
-  - S_mag
-  - Magnet
-  - Mairo
-  - Movable Magnet S
-  - Movable Magnet N
-  - FxTemporaire
-  - StarDust
-  - PowerDust
-  - IronPlanet
-  - LastBoss
-  - CannonChargeUnit
-  - FlowerStand
-  - FlowerMaxGrowPoint
-  - KillZone
-  - FlowreStand
-  - CollapseWallStopTrigger
-  - RailObject
-  - Rail
-  - Booster
-  - TrainMonster
-  - EventTrain
-  - RestartPoint
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -37,15 +13,15 @@ TagManager:
   - UI
   - 
   - 
-  - Magnet
-  - North Magnetic Pole
-  - South Magnetic Pole
-  - Player
-  - Movable Magnet N
-  - Movable Magnet S
-  - Stick Move Mag
-  - LastBoss
-  - RestartPoint
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

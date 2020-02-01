@@ -27,6 +27,7 @@ TagManager:
   - Booster
   - TrainMonster
   - EventTrain
+  - TrainGoal
   layers:
   - Default
   - TransparentFX

@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/hayato/TitleScene.unity
+    path: Assets/MasterScenes/TitleScene.unity
     guid: ba1b14d467177864a891ce23de4600c6
   - enabled: 1
-    path: Assets/hayato/TrainScene.unity
+    path: Assets/MasterScenes/TrainScene.unity
     guid: 224969d77da718844bca61c7af0769b9
   - enabled: 1
-    path: Assets/hayato/LastBossTestScene.unity
+    path: Assets/mayu/Scene/CommandRoom.unity
+    guid: 01f8257dbe9c2eb4fa0f0ec61bc49e90
+  - enabled: 1
+    path: Assets/MasterScenes/LastBossTestScene.unity
     guid: 3bb2546f25424f943b2a8b1450fbb8f2
   m_configObjects: {}

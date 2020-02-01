@@ -42,5 +42,7 @@ public class ForEvent_TrainScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(1f);
         isMairoOnCollision = true;
+        yield return new WaitForSeconds(3f);
+        FadeManager.Instance.LoadScene("TrainScene", 1f);
     }
 }

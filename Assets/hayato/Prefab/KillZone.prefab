@@ -20,11 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4920191656372984}
   - component: {fileID: 61880927300765846}
-  - component: {fileID: 114481796205036358}
   - component: {fileID: 8123674487922579032}
   m_Layer: 0
   m_Name: KillZone
-  m_TagString: Untagged
+  m_TagString: KillZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1391851759369884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.27, y: -9.63, z: 0}
+  m_LocalPosition: {x: -1.7, y: -9.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -67,17 +66,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114481796205036358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1391851759369884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65a02906614a3a45ad1fc19aa3c8941, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1818360608 &8123674487922579032
 PositionConstraint:
   m_ObjectHideFlags: 1
@@ -87,12 +75,12 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: -1.27, y: -9.63, z: 0}
-  m_TranslationOffset: {x: 0.23099995, y: -8.806, z: 0}
+  m_TranslationOffset: {x: 1.48, y: -8.2072, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
   m_IsContraintActive: 1
-  m_IsLocked: 0
+  m_IsLocked: 1
   m_Sources:
   - sourceTransform: {fileID: 0}
     weight: 1

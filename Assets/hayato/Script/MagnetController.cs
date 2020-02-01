@@ -198,7 +198,7 @@ public class MagnetController : MonoBehaviour {
             // 自分がN極で、プレイヤーのN極のほうが磁石と近かったら、反発モードにする。
             if (distanceN < distanceS) {
                 effector2D.forceMagnitude = -myForceMagunitude;
-                playerController.Change_Effectively_S_Pole();
+                playerController.Change_Effectively_N_Pole();
                 if (!playerController.GetIsRotating() && !isPoleEnter)
                 {
                     Instantiate(RepulsionParticle, magTransForm, magRotation);
@@ -207,7 +207,7 @@ public class MagnetController : MonoBehaviour {
                 // S極のほうが近かったら吸引モード
             } else {
                 effector2D.forceMagnitude = myForceMagunitude;
-                playerController.Change_Effectively_N_Pole();
+                playerController.Change_Effectively_S_Pole();
                 playerController.isWallStick = true;
                 Change_MyImage_Stick();
             }

@@ -19,10 +19,16 @@ public class Pauser : MonoBehaviour
     float[] rg2dBodyAVels = null;
 
     // 初期化
-    void Start()
+    void Awake()
     {
         // ポーズ対象に追加する
         targets.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        // ポーズ対象から除外する
+        targets.Remove(this);
     }
 
     // 破棄されるとき
@@ -35,11 +41,12 @@ public class Pauser : MonoBehaviour
     // ポーズされたとき
     void OnPause()
     {
-        if (pauseBehavs != null) {
+        if (!ReferenceEquals(pauseBehavs, null)) {
             return;
         }
 
         // 有効なコンポーネントを取得
+        if(ReferenceEquals(pauseBehavs, null))
         pauseBehavs = Array.FindAll(GetComponentsInChildren<Behaviour>(), (obj) => { return obj.enabled; });
         foreach (var com in pauseBehavs) {
             com.enabled = false;

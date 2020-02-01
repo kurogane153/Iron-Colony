@@ -6,27 +6,16 @@ public class Anim : MonoBehaviour
 {
     Animator _animator;
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
-
         _animator = GetComponent<Animator>();
     }
 
-    public void Update()
+
+    private void OnEnable()
     {
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            //_animator.SetBool("key", true);
-            _animator.SetTrigger("New Trigger");
-            
-        }
-        else
-        {
-            //_animator.SetBool("key", false);
-        }
-
+        // IronColonyによってSetActive(true)されたときにアニメーショントリガーをONにして一度だけアニメーションする。
+        _animator.SetTrigger("New Trigger");
     }
 
 }

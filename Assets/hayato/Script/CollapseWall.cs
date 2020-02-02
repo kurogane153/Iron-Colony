@@ -14,6 +14,7 @@ public class CollapseWall : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody2D>();
         rb.centerOfMass = new Vector3(0, -1, 0);
         cols = gameObject.GetComponents<BoxCollider2D>();
+        SoundManager.Instance.PlayBgmByName("game_maoudamashii_5_town18");
         
     }
 

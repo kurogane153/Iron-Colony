@@ -32,7 +32,7 @@ public class StartMenu : MonoBehaviour {
     public void NewGame()
     {
         gameObject.SetActive(false);
-        FadeManager.Instance.LoadScene("FirstScene", 3f);
+        FadeManager.Instance.LoadScene("EventScene", 2f);
         SoundManager.Instance.PlaySeByName("newgame");
     }
 }

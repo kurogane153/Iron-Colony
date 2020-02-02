@@ -8,6 +8,8 @@ public class TrainGoal : MonoBehaviour {
     {
         if(collision.tag == "Player")
         {
+            SoundManager.Instance.StopBgm();
+            SoundManager.Instance.StopSe();
             FadeManager.Instance.LoadScene("CommandRoom", 1f);
         }
     }

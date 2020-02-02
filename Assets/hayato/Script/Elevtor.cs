@@ -24,7 +24,7 @@ public class Elevtor : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "S_mag") {
+        if (collision.tag == "Mairo") {
             controller.enabled = false;
             StartCoroutine("TrainMoveStart");
             GameObject mairo = GameObject.Find("Mairo");
@@ -40,7 +40,7 @@ public class Elevtor : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         isMairoOnCollision = true;
         yield return new WaitForSeconds(2f);
-        //FadeManager.Instance.LoadScene("Chapter2", 1f);
+        FadeManager.Instance.LoadScene("MasterScene", 1f);
         PlayerPrefs.SetInt("Chapter", 1);
     }
 }

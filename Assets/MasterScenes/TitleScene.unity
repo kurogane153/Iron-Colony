@@ -304,6 +304,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Load_Scene4
       objectReference: {fileID: 0}
+    - target: {fileID: 114380101937588652, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0,
+        type: 2}
+      propertyPath: debugmode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0, type: 2}
   m_IsPrefabParent: 0

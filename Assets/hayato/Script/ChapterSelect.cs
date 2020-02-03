@@ -10,6 +10,14 @@ public class ChapterSelect : MonoBehaviour {
     [SerializeField] private GameObject _Button2;
     [SerializeField] private GameObject _Button3;
     [SerializeField] private GameObject _Button4;
+    public bool debugmode;
+
+    private void Start()
+    {
+        if (debugmode) {
+            PlayerPrefs.SetInt("Chapter", 0);
+        }
+    }
 
     void Update()
     {

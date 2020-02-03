@@ -74,6 +74,9 @@ public class IronPlanetScript : MonoBehaviour {
         teslaNormalColor = TeslaSliderFill.color;
 
         SoundManager.Instance.PlayBgmByName("game_maoudamashii_2_lastboss03");
+        if (PlayerPrefs.GetInt("Chapter") < 4) {
+            PlayerPrefs.SetInt("Chapter", 4);
+        }
     }
 	
 	void Update () {

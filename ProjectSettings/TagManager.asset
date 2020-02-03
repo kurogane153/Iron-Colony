@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - KillZone
+  - Ground
+  - Mairo
+  - N_mag
+  - S_mag
+  - FxTemporaire
+  - Magnet
+  - FlowerStand
+  - FlowerMaxGrowPoint
+  - RestartPoint
   layers:
   - Default
   - TransparentFX
@@ -13,15 +23,15 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Magnet
+  - North Magnetic Pole
+  - South Magnetic Pole
+  - Player
+  - Movable Magnet N
+  - Movable Magnet S
+  - Stick Move Mag
+  - LastBoss
+  - RestartPoint
   - 
   - 
   - 

@@ -12,6 +12,9 @@ public class ForEvent_TrainScript : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         controller = GameObject.Find("Mairo").GetComponent<PlayerController>();
+        if (PlayerPrefs.GetInt("Chapter") < 2) {
+            PlayerPrefs.SetInt("Chapter", 2);
+        }
     }
 
     void Update () {
@@ -42,5 +45,7 @@ public class ForEvent_TrainScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(1f);
         isMairoOnCollision = true;
+        yield return new WaitForSeconds(3f);
+        FadeManager.Instance.LoadScene("TrainScene", 1f);
     }
 }

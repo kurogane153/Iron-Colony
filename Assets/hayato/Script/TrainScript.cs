@@ -34,6 +34,9 @@ public class TrainScript : MonoBehaviour {
         NPoleImage = sr.sprite;
         SoundManager.Instance.PlayBgmByName("TABGM4");
         SoundManager.Instance.PlaySeByName("bullet-train-driving1");
+        if (PlayerPrefs.GetInt("Chapter") < 3) {
+            PlayerPrefs.SetInt("Chapter", 3);
+        }
     }
 	
 	void Update () {

@@ -54,28 +54,28 @@ public class ChapterSelect : MonoBehaviour {
     public void Load_Scene1()
     {
         gameObject.SetActive(false);
-        FadeManager.Instance.LoadScene("Chapter1", 3f);
+        FadeManager.Instance.LoadScene("mayu Main", 3f);
         SoundManager.Instance.PlaySeByName("OK");
     }
 
     public void Load_Scene2()
     {
         gameObject.SetActive(false);
-        FadeManager.Instance.LoadScene("Chapter2", 3f);
+        FadeManager.Instance.LoadScene("MasterScene", 3f);
         SoundManager.Instance.PlaySeByName("OK");
     }
 
     public void Load_Scene3()
     {
         gameObject.SetActive(false);
-        FadeManager.Instance.LoadScene("Chapter3", 3f);
+        FadeManager.Instance.LoadScene("TrainScene", 3f);
         SoundManager.Instance.PlaySeByName("OK");
     }
 
     public void Load_Scene4()
     {
         gameObject.SetActive(false);
-        FadeManager.Instance.LoadScene("Chapter4", 3f);
+        FadeManager.Instance.LoadScene("CommandRoom", 3f);
         SoundManager.Instance.PlaySeByName("OK");
     }
 }

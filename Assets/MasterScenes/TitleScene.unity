@@ -289,6 +289,21 @@ Prefab:
       propertyPath: _startMenu
       value: 
       objectReference: {fileID: 2067270760}
+    - target: {fileID: 114733764000707246, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Load_Scene2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114708149552273094, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Load_Scene3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447958910070540, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Load_Scene4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4011d0ec0f5a38e4fb5342592ce0f4e0, type: 2}
   m_IsPrefabParent: 0

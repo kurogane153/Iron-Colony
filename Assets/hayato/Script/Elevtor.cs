@@ -13,6 +13,9 @@ public class Elevtor : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody2D>();
         controller = GameObject.Find("Mairo").GetComponent<PlayerController>();
+        if (PlayerPrefs.GetInt("Chapter") == 0) {
+            PlayerPrefs.SetInt("Chapter", 1);
+        }
     }
 
     private void FixedUpdate()
@@ -41,6 +44,7 @@ public class Elevtor : MonoBehaviour {
         isMairoOnCollision = true;
         yield return new WaitForSeconds(2f);
         FadeManager.Instance.LoadScene("MasterScene", 1f);
-        PlayerPrefs.SetInt("Chapter", 1);
+        
+        
     }
 }

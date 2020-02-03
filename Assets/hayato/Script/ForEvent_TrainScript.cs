@@ -12,6 +12,9 @@ public class ForEvent_TrainScript : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         controller = GameObject.Find("Mairo").GetComponent<PlayerController>();
+        if (PlayerPrefs.GetInt("Chapter") < 2) {
+            PlayerPrefs.SetInt("Chapter", 2);
+        }
     }
 
     void Update () {
